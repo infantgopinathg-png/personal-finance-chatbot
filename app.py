@@ -3,8 +3,6 @@ st.set_page_config(
     page_title="Personal Financial Discipline Advisor",
     layout="centered"
 )
-
-st.title("💰 Personal Financial Discipline Advisor")
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
