@@ -231,9 +231,21 @@ if st.button("Analyze Financial Plan"):
     • Increase monthly savings to reach retirement goal faster
     """)
 
+
 # ---------- Footer ----------
 st.markdown("---")
+
 st.markdown(
 "<h5 style='text-align:center;'>A Project of Personal Finance & Wealth Management</h5>",
+unsafe_allow_html=True
+)
+
+st.markdown(
+"<h6 style='text-align:center;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h6>",
+unsafe_allow_html=True
+)
+
+st.markdown(
+"<h6 style='text-align:center;'>Faculty: Dr. K. Nigama</h6>",
 unsafe_allow_html=True
 )
