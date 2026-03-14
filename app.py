@@ -7,7 +7,8 @@ if "messages" not in st.session_state:
     st.session_state.step = 0
 
 questions = [
-"Hello! I will help you plan your savings. What is your age?",
+"Hello! I will help you plan your savings and retirement. What is your age?",
+"What is your gender? (Male/Female/Other)",
 "What is your monthly income (₹)?",
 "What are your monthly expenses (₹)?",
 "How much current savings do you have (₹)?",
@@ -53,6 +54,26 @@ if user_input:
         years_left = retirement_age - st.session_state.age
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
+        # Government retirement scheme recommendation
+
+if st.session_state.age < 40:
+    recommendation = """
+Recommended Government Retirement Schemes:
+
+• National Pension System (NPS)
+• Public Provident Fund (PPF)
+• Atal Pension Yojana (APY)
+"""
+
+else:
+    recommendation = """
+Recommended Government Retirement Schemes:
+
+• National Pension System (NPS)
+• Senior Citizen Savings Scheme (SCSS)
+• Pradhan Mantri Vaya Vandana Yojana (PMVVY)
+"""
+
         savings_rate = monthly_savings / st.session_state.income
 
         if savings_rate < 0.2:
@@ -70,6 +91,9 @@ Monthly Savings: ₹{monthly_savings}
 Years to Retirement: {years_left}
 
 Estimated Retirement Corpus: ₹{corpus}
+
+### Recommended Government Schemes
+{recommendation}
 
 Advice: {advice}
 """
