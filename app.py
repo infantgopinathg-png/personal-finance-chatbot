@@ -367,4 +367,3 @@ Gap: ₹{max(emergency_gap,0):,}
         st.session_state.step += 1
 
         st.rerun()
-)
