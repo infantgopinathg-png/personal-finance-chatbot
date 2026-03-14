@@ -3,6 +3,21 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+st.markdown("""
+<style>
+
+/* Hide Streamlit menu */
+#MainMenu {visibility: hidden;}
+
+/* Hide footer */
+footer {visibility: hidden;}
+
+/* Hide header toolbar (edit, github, menu icons) */
+header {visibility: hidden;}
+
+</style>
+""", unsafe_allow_html=True)
+
 # ---------- Currency conversion ----------
 def convert_indian_currency(value):
     value = value.lower().strip()
