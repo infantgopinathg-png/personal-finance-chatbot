@@ -45,28 +45,27 @@ if user_input:
     elif step == 3:
         st.session_state.savings = int(user_input)
         reply = questions[4]
-
+        
     elif step == 4:
 
-        retirement_age = int(user_input)
+    retirement_age = int(user_input)
 
-        monthly_savings = st.session_state.income - st.session_state.expenses
-        years_left = retirement_age - st.session_state.age
-        corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
+    monthly_savings = st.session_state.income - st.session_state.expenses
+    years_left = retirement_age - st.session_state.age
+    corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
-        # Government retirement scheme recommendation
+    # Government retirement scheme recommendation
 
-if st.session_state.age < 40:
-    recommendation = """
+    if st.session_state.age < 40:
+        recommendation = """
 Recommended Government Retirement Schemes:
 
 • National Pension System (NPS)
 • Public Provident Fund (PPF)
 • Atal Pension Yojana (APY)
 """
-
-else:
-    recommendation = """
+    else:
+        recommendation = """
 Recommended Government Retirement Schemes:
 
 • National Pension System (NPS)
@@ -74,16 +73,16 @@ Recommended Government Retirement Schemes:
 • Pradhan Mantri Vaya Vandana Yojana (PMVVY)
 """
 
-savings_rate = monthly_savings / st.session_state.income
+    savings_rate = monthly_savings / st.session_state.income
 
-if savings_rate < 0.2:
-    advice = "⚠ Increase savings to at least 20% of income."
-elif savings_rate < 0.4:
-    advice = "👍 Good savings discipline."
-else:
-    advice = "🎉 Excellent financial discipline."
+    if savings_rate < 0.2:
+        advice = "⚠ Increase savings to at least 20% of income."
+    elif savings_rate < 0.4:
+        advice = "👍 Good savings discipline."
+    else:
+        advice = "🎉 Excellent financial discipline."
 
-        reply = f"""
+    reply = f"""
 ### Financial Plan
 
 Monthly Savings: ₹{monthly_savings}
@@ -97,7 +96,4 @@ Estimated Retirement Corpus: ₹{corpus}
 
 Advice: {advice}
 """
-
-    st.session_state.messages.append({"role":"assistant","content":reply})
-    st.session_state.step += 1
-    st.rerun()
+    
