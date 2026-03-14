@@ -30,31 +30,33 @@ if user_input:
     st.session_state.messages.append({"role":"user","content":user_input})
     step = st.session_state.step
 
-    if step == 0:
-        st.session_state.age = int(user_input)
-        reply = questions[1]
+if step == 0:
+    st.session_state.age = int(user_input)
+    reply = questions[1]
 
-    elif step == 1:
-        st.session_state.income = int(user_input)
-        reply = questions[2]
+elif step == 1:
+    st.session_state.gender = user_input
+    reply = questions[2]
 
-    elif step == 2:
-        st.session_state.expenses = int(user_input)
-        reply = questions[3]
+elif step == 2:
+    st.session_state.income = int(user_input)
+    reply = questions[3]
 
-    elif step == 3:
-        st.session_state.savings = int(user_input)
-        reply = questions[4]
-        
+elif step == 3:
+    st.session_state.expenses = int(user_input)
+    reply = questions[4]
+
 elif step == 4:
+    st.session_state.savings = int(user_input)
+    reply = questions[5]
+
+elif step == 5:
 
     retirement_age = int(user_input)
 
     monthly_savings = st.session_state.income - st.session_state.expenses
     years_left = retirement_age - st.session_state.age
     corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
-
-    # Government retirement scheme recommendation
 
     if st.session_state.age < 40:
         recommendation = """
@@ -96,4 +98,3 @@ Estimated Retirement Corpus: ₹{corpus}
 
 Advice: {advice}
 """
-    
