@@ -56,7 +56,7 @@ unsafe_allow_html=True
 st.subheader("User Financial Information")
 
 age = st.number_input("Current Age", min_value=18, max_value=100)
-gender = st.radio("Gender", ["Male","Female","Other"])
+gender = st.radio("Gender", ["Male","Female"])
 income = st.number_input("Monthly Income (₹)", min_value=0)
 expenses = st.number_input("Monthly Expenses (₹)", min_value=0)
 savings = st.number_input("Current Savings (₹)", min_value=0)
