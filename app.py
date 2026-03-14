@@ -235,6 +235,5 @@ if st.button("Analyze Financial Plan"):
 st.markdown("---")
 st.markdown(
 "<h5 style='text-align:center;'>A Project of Personal Finance & Wealth Management</h5>",
-"<h5 style='text-align:center;'>Faculty: Dr. K. Nigama</h5>",
 unsafe_allow_html=True
 )
