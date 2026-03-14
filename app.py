@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
-# -----------------------------
-# Currency conversion function
-# -----------------------------
-
+# -------------------------
+# Convert Indian currency
+# -------------------------
 def convert_indian_currency(value):
 
     value = value.lower().strip()
@@ -14,7 +14,7 @@ def convert_indian_currency(value):
         number = float(value.split()[0])
         return int(number * 10000000)
 
-    elif "lakh" in value or "lac" in value:
+    elif "lakh" in value:
         number = float(value.split()[0])
         return int(number * 100000)
 
@@ -22,12 +22,11 @@ def convert_indian_currency(value):
         return int(value)
 
 
-# -----------------------------
+# -------------------------
 # Title
-# -----------------------------
-
+# -------------------------
 st.markdown(
-"<h1 style='text-align:center; white-space:nowrap;'>💰 Personal Financial Discipline Advisor</h1>",
+"<h1 style='text-align:center;'>💰 Personal Financial Discipline Advisor</h1>",
 unsafe_allow_html=True
 )
 
@@ -37,39 +36,29 @@ unsafe_allow_html=True
 )
 
 
-# -----------------------------
-# Session state
-# -----------------------------
-
+# -------------------------
+# Session State
+# -------------------------
 if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.step = 0
 
 
 questions = [
-
 "Hello! I will help you plan your savings and retirement. What is your age?",
-
-"Please select your gender:",
-
+"Select your gender:",
 "What is your monthly income (₹)?",
-
 "What are your monthly expenses (₹)?",
-
 "How much savings do you currently have (₹)?",
-
 "At what age do you want to retire?",
-
 "What is your retirement goal corpus? (Example: 2 crore / 20000000)",
-
 "Select your risk tolerance:"
 ]
 
 
-# -----------------------------
+# -------------------------
 # Chat history
-# -----------------------------
-
+# -------------------------
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
@@ -78,10 +67,9 @@ for msg in st.session_state.messages:
 user_input = st.chat_input("Type your answer")
 
 
-# -----------------------------
+# -------------------------
 # Start chatbot
-# -----------------------------
-
+# -------------------------
 if st.session_state.step == 0 and len(st.session_state.messages) == 0:
 
     st.session_state.messages.append({
@@ -92,16 +80,12 @@ if st.session_state.step == 0 and len(st.session_state.messages) == 0:
     st.rerun()
 
 
-# -----------------------------
-# User responses
-# -----------------------------
-
+# -------------------------
+# Input processing
+# -------------------------
 if user_input:
 
-    st.session_state.messages.append({
-        "role":"user",
-        "content":user_input
-    })
+    st.session_state.messages.append({"role":"user","content":user_input})
 
     step = st.session_state.step
 
@@ -126,30 +110,21 @@ if user_input:
         reply = questions[6]
 
     elif step == 6:
-
         st.session_state.retirement_goal = convert_indian_currency(user_input)
-
         reply = questions[7]
 
-    st.session_state.messages.append({
-        "role":"assistant",
-        "content":reply
-    })
+    st.session_state.messages.append({"role":"assistant","content":reply})
 
     st.session_state.step += 1
     st.rerun()
 
 
-# -----------------------------
+# -------------------------
 # Gender selection
-# -----------------------------
-
+# -------------------------
 if st.session_state.step == 1:
 
-    gender = st.radio(
-        "Select your gender",
-        ["Male","Female","Other"]
-    )
+    gender = st.radio("Select Gender", ["Male","Female","Other"])
 
     if st.button("Confirm Gender"):
 
@@ -170,237 +145,134 @@ if st.session_state.step == 1:
         st.rerun()
 
 
-# -----------------------------
+# -------------------------
 # Risk selection
-# -----------------------------
-
+# -------------------------
 if st.session_state.step == 7:
 
-    risk = st.radio(
-        "Select Risk Tolerance",
-        ["Low","Medium","High"]
-    )
+    risk = st.radio("Select Risk Tolerance", ["Low","Medium","High"])
 
     if st.button("Confirm Risk"):
 
         st.session_state.risk = risk.lower()
 
         monthly_savings = st.session_state.income - st.session_state.expenses
-
         years_left = st.session_state.retirement_age - st.session_state.age
-
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
+        # -------------------------
+        # Portfolio allocation
+        # -------------------------
+        if risk == "Low":
 
-        # -----------------------------
-        # Investment recommendations
-        # -----------------------------
+            portfolio = {
+            "PPF":40,
+            "Debt Funds":40,
+            "Gold":20
+            }
 
-        if st.session_state.risk == "low":
+        elif risk == "Medium":
 
-            recommendation = """
-
-Low Risk Portfolio
-
-• Public Provident Fund (PPF) – ~7.1%
-
-• Debt Mutual Funds – ~6–7%
-
-• Gold ETF – ~6–7%
-
-"""
-
-        elif st.session_state.risk == "medium":
-
-            recommendation = """
-
-Moderate Risk Portfolio
-
-• National Pension System (NPS) – ~9–12%
-
-• Balanced Mutual Funds – ~8–10%
-
-• PPF – ~7.1%
-
-"""
+            portfolio = {
+            "Equity Funds":50,
+            "Debt Funds":30,
+            "Gold":20
+            }
 
         else:
 
-            recommendation = """
-
-High Growth Portfolio
-
-• Equity Mutual Funds SIP – ~10–12%
-
-• Index Funds – ~10–11%
-
-• NPS – ~9–12%
-
-"""
+            portfolio = {
+            "Equity Funds":70,
+            "Index Funds":20,
+            "Gold":10
+            }
 
 
-        # -----------------------------
+        # -------------------------
         # Financial health score
-        # -----------------------------
-
+        # -------------------------
         savings_ratio = monthly_savings / st.session_state.income
-
         expense_ratio = st.session_state.expenses / st.session_state.income
 
-        emergency_needed = st.session_state.expenses * 6
-
-        score = 0
+        score = int((savings_ratio*50) + ((1-expense_ratio)*50))
 
 
-        if savings_ratio >= 0.3:
-            score += 30
-        elif savings_ratio >= 0.2:
-            score += 20
-        else:
-            score += 10
-
-
-        if expense_ratio <= 0.6:
-            score += 25
-        elif expense_ratio <= 0.8:
-            score += 15
-        else:
-            score += 5
-
-
-        if st.session_state.savings >= emergency_needed:
-            score += 20
-        else:
-            score += 10
-
-
-        if years_left >= 20:
-            score += 25
-        else:
-            score += 15
-
-
-        health_message = f"Your Financial Health Score: {score}/100"
-
-
-        # -----------------------------
-        # Expense analysis
-        # -----------------------------
-
-        if expense_ratio > 0.8:
-            expense_message = "⚠️ Your expenses are very high. Try reducing discretionary spending."
-
-        elif expense_ratio > 0.6:
-            expense_message = "Your expenses are moderate."
-
-        else:
-            expense_message = "Excellent expense discipline."
-
-
-        # -----------------------------
+        # -------------------------
         # Emergency fund
-        # -----------------------------
-
+        # -------------------------
+        emergency_needed = st.session_state.expenses * 6
         emergency_gap = emergency_needed - st.session_state.savings
 
 
-        if emergency_gap > 0:
-
-            emergency_message = f"You need ₹{emergency_gap:,} more for a proper emergency fund."
-
-        else:
-
-            emergency_message = "You already have sufficient emergency savings."
-
-
-        # -----------------------------
+        # -------------------------
         # Retirement readiness
-        # -----------------------------
-
+        # -------------------------
         readiness_ratio = corpus / st.session_state.retirement_goal
 
-
-        if readiness_ratio >= 1:
-
-            readiness = "🟢 Retirement Ready"
-
-        elif readiness_ratio >= 0.6:
-
-            readiness = "🟡 Moderately Prepared"
-
-        else:
-
-            readiness = "🔴 Increase savings"
+        readiness_percent = min(int(readiness_ratio*100),100)
 
 
-        # -----------------------------
-        # Savings recommendation
-        # -----------------------------
-
-        required_monthly = st.session_state.retirement_goal / (years_left * 12)
-
-
-        savings_plan = f"""
-
-To achieve your retirement goal of ₹{st.session_state.retirement_goal:,}
-
-You should save approximately ₹{int(required_monthly):,} per month.
-
-"""
-
-
-        # -----------------------------
-        # Wealth projection graph
-        # -----------------------------
-
+        # -------------------------
+        # Retirement projection graph
+        # -------------------------
         annual_return = 0.10
 
         balance = st.session_state.savings
-
         projection = []
 
+        for year in range(1, years_left+1):
 
-        for year in range(1, years_left + 1):
-
-            balance = (balance + monthly_savings * 12) * (1 + annual_return)
-
+            balance = (balance + monthly_savings*12) * (1+annual_return)
             projection.append(balance)
 
-
-        data = pd.DataFrame({
-
-            "Year": list(range(1, years_left + 1)),
-
-            "Projected Wealth": projection
-
+        df = pd.DataFrame({
+        "Year":list(range(1,years_left+1)),
+        "Projected Wealth":projection
         })
 
+        st.subheader("📈 Retirement Wealth Projection")
 
-        fig = px.line(
+        fig = px.line(df,x="Year",y="Projected Wealth",markers=True)
 
-            data,
+        st.plotly_chart(fig,use_container_width=True)
 
-            x="Year",
 
-            y="Projected Wealth",
+        # -------------------------
+        # Portfolio pie chart
+        # -------------------------
+        st.subheader("📊 Recommended Portfolio Allocation")
 
-            markers=True,
-
-            title="Retirement Wealth Projection"
-
+        pie = px.pie(
+        values=list(portfolio.values()),
+        names=list(portfolio.keys())
         )
 
+        st.plotly_chart(pie,use_container_width=True)
 
-        st.plotly_chart(fig, use_container_width=True)
+
+        # -------------------------
+        # Retirement readiness gauge
+        # -------------------------
+        st.subheader("🎯 Retirement Readiness")
+
+        gauge = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=readiness_percent,
+        title={'text':"Retirement Readiness %"},
+        gauge={'axis':{'range':[0,100]}}
+        ))
+
+        st.plotly_chart(gauge,use_container_width=True)
 
 
-        # -----------------------------
-        # Final chatbot response
-        # -----------------------------
-
+        # -------------------------
+        # Final chatbot reply
+        # -------------------------
         reply = f"""
 
-### Financial Plan
+### 📋 Financial Plan
+
+Selected Risk Profile: **{risk}**
 
 Retirement Goal: ₹{st.session_state.retirement_goal:,}
 
@@ -411,46 +283,24 @@ Years to Retirement: {years_left}
 Estimated Retirement Corpus: ₹{corpus:,}
 
 
-### Investment Recommendations
+### 📊 Financial Health Score
 
-{recommendation}
-
-
-### Financial Health
-
-{health_message}
+{score}/100
 
 
-### Expense Analysis
+### 🚑 Emergency Fund
 
-{expense_message}
+Required: ₹{emergency_needed:,}
 
+Gap: ₹{max(emergency_gap,0):,}
 
-### Emergency Fund
-
-{emergency_message}
-
-
-### Retirement Readiness
-
-{readiness}
-
-
-### Savings Strategy
-
-{savings_plan}
 
 """
 
-
         st.session_state.messages.append({
-
-            "role":"assistant",
-
-            "content":reply
-
+        "role":"assistant",
+        "content":reply
         })
-
 
         st.session_state.step += 1
 
