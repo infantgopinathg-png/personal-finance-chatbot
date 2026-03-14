@@ -13,33 +13,26 @@ questions = [
     "What is your monthly income (₹)?",
     "What are your monthly expenses (₹)?",
     "How much current savings do you have (₹)?",
-    "What is your retirement age?"
+    "At what age do you want to retire?",
+    "What retirement lifestyle do you want? (Basic / Comfortable / Luxury)"
 ]
 
 # Display previous messages
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.write(msg["content"])
 
 # Chat input
 user_input = st.chat_input("Type your answer")
 
 # Start conversation
 if st.session_state.step == 0 and len(st.session_state.messages) == 0:
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": questions[0]
-    })
+    st.session_state.messages.append({"role":"assistant","content":questions[0]})
     st.rerun()
 
-# Handle user input
 if user_input:
 
-    st.session_state.messages.append({
-        "role": "user",
-        "content": user_input
-    })
-
+    st.session_state.messages.append({"role":"user","content":user_input})
     step = st.session_state.step
 
     if step == 0:
@@ -63,63 +56,149 @@ if user_input:
         reply = questions[5]
 
     elif step == 5:
+        st.session_state.retirement_age = int(user_input)
+        reply = questions[6]
 
-        retirement_age = int(user_input)
+    elif step == 6:
+
+        lifestyle = user_input.lower()
+
+        # Lifestyle retirement goal
+        if "basic" in lifestyle:
+            retirement_goal = 15000000
+        elif "luxury" in lifestyle:
+            retirement_goal = 50000000
+        else:
+            retirement_goal = 30000000
 
         monthly_savings = st.session_state.income - st.session_state.expenses
-        years_left = retirement_age - st.session_state.age
-
+        years_left = st.session_state.retirement_age - st.session_state.age
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
-        # Government scheme recommendation
+        # Government scheme suggestion
         if st.session_state.age < 40:
             recommendation = """
-Recommended Government Retirement Schemes:
-
-• National Pension System (NPS)  
-• Public Provident Fund (PPF)  
+• National Pension System (NPS)
+• Public Provident Fund (PPF)
 • Atal Pension Yojana (APY)
 """
         else:
             recommendation = """
-Recommended Government Retirement Schemes:
-
-• National Pension System (NPS)  
-• Senior Citizen Savings Scheme (SCSS)  
+• National Pension System (NPS)
+• Senior Citizen Savings Scheme (SCSS)
 • Pradhan Mantri Vaya Vandana Yojana (PMVVY)
 """
 
-        # Savings discipline analysis
-        savings_rate = monthly_savings / st.session_state.income
+        # Financial Health Score
+        savings_ratio = monthly_savings / st.session_state.income
+        expense_ratio = st.session_state.expenses / st.session_state.income
+        emergency_needed = st.session_state.expenses * 6
 
-        if savings_rate < 0.2:
-            advice = "⚠ Increase savings to at least 20% of income."
-        elif savings_rate < 0.4:
-            advice = "👍 Good savings discipline."
+        score = 0
+
+        if savings_ratio >= 0.3:
+            score += 30
+        elif savings_ratio >= 0.2:
+            score += 20
         else:
-            advice = "🎉 Excellent financial discipline."
+            score += 10
+
+        if expense_ratio <= 0.6:
+            score += 25
+        elif expense_ratio <= 0.8:
+            score += 15
+        else:
+            score += 5
+
+        if st.session_state.savings >= emergency_needed:
+            score += 20
+        else:
+            score += 10
+
+        if years_left >= 20:
+            score += 25
+        else:
+            score += 15
+
+        health_message = f"Your Financial Health Score: {score}/100"
+
+        # Expense analysis
+        if expense_ratio > 0.8:
+            expense_message = """
+⚠️ Your expenses are very high.
+
+Recommended ratio: 50–60%
+
+Suggestions:
+• Reduce discretionary spending
+• Follow 50-30-20 rule
+"""
+        elif expense_ratio > 0.6:
+            expense_message = "Your expenses are moderate but can be improved."
+        else:
+            expense_message = "Excellent expense discipline."
+
+        # Emergency fund
+        emergency_gap = emergency_needed - st.session_state.savings
+
+        if emergency_gap > 0:
+            emergency_message = f"""
+Emergency fund required: ₹{emergency_needed}
+
+You still need ₹{emergency_gap} to reach financial safety.
+"""
+        else:
+            emergency_message = "You already have a sufficient emergency fund."
+
+        # Retirement readiness
+        readiness_ratio = corpus / retirement_goal
+
+        if readiness_ratio >= 1:
+            readiness = "🟢 You are ready for retirement!"
+        elif readiness_ratio >= 0.6:
+            readiness = "🟡 You are moderately prepared."
+        else:
+            readiness = "🔴 You need to increase savings."
+
+        # Monthly savings recommendation
+        required_monthly = retirement_goal / (years_left * 12)
+
+        savings_recommendation = f"""
+To reach a retirement goal of ₹{retirement_goal:,}
+
+You should save approximately ₹{int(required_monthly):,} per month.
+
+Consider investing through SIP with ~10% annual return.
+"""
 
         reply = f"""
 ### 📊 Financial Plan
 
-**Monthly Savings:** ₹{monthly_savings}
+Monthly Savings: ₹{monthly_savings:,}
 
-**Years to Retirement:** {years_left}
+Years to Retirement: {years_left}
 
-**Estimated Retirement Corpus:** ₹{corpus}
+Estimated Retirement Corpus: ₹{corpus:,}
 
 ### 🏦 Recommended Government Schemes
 {recommendation}
 
-### 💡 Advice
-{advice}
+### 💡 Financial Health
+{health_message}
+
+### 📉 Expense Analysis
+{expense_message}
+
+### 🚑 Emergency Fund
+{emergency_message}
+
+### 📈 Retirement Readiness
+{readiness}
+
+### 💰 Savings Strategy
+{savings_recommendation}
 """
 
-    # Assistant response
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": reply
-    })
-
+    st.session_state.messages.append({"role":"assistant","content":reply})
     st.session_state.step += 1
     st.rerun()
