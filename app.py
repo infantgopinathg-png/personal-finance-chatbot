@@ -26,7 +26,11 @@ def convert_indian_currency(value):
 # Title
 # -------------------------
 st.markdown(
-"<h1 style='text-align:center;'>💰 Personal Financial Discipline Advisor</h1>",
+"""
+<h1 style='text-align:center; white-space: nowrap; font-size:40px;'>
+💰 Personal Financial Discipline Advisor
+</h1>
+""",
 unsafe_allow_html=True
 )
 
