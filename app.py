@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 st.title("💰 Personal Financial Discipline Advisor")
 
@@ -15,10 +16,11 @@ questions = [
     "What are your monthly expenses (₹)?",
     "How much current savings do you have (₹)?",
     "At what age do you want to retire?",
-    "What retirement lifestyle do you want? (Basic / Comfortable / Luxury)"
+    "What retirement lifestyle do you want? (Basic / Comfortable / Luxury)",
+    "What is your investment risk tolerance? (Low / Medium / High)"
 ]
 
-# Display chat history
+# Display previous messages
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
@@ -27,19 +29,12 @@ user_input = st.chat_input("Type your answer")
 
 # Start conversation
 if st.session_state.step == 0 and len(st.session_state.messages) == 0:
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": questions[0]
-    })
+    st.session_state.messages.append({"role":"assistant","content":questions[0]})
     st.rerun()
 
 if user_input:
 
-    st.session_state.messages.append({
-        "role": "user",
-        "content": user_input
-    })
-
+    st.session_state.messages.append({"role":"user","content":user_input})
     step = st.session_state.step
 
     if step == 0:
@@ -67,12 +62,17 @@ if user_input:
         reply = questions[6]
 
     elif step == 6:
+        st.session_state.lifestyle = user_input
+        reply = questions[7]
 
-        lifestyle = user_input.lower()
+    elif step == 7:
 
-        if "basic" in lifestyle:
+        risk = user_input.lower()
+
+        # Lifestyle-based retirement goal
+        if "basic" in st.session_state.lifestyle.lower():
             retirement_goal = 15000000
-        elif "luxury" in lifestyle:
+        elif "luxury" in st.session_state.lifestyle.lower():
             retirement_goal = 50000000
         else:
             retirement_goal = 30000000
@@ -82,45 +82,38 @@ if user_input:
 
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
-        # Customized scheme recommendation
-        recommendation = ""
+        # Risk-based portfolio recommendations
+        if "low" in risk:
 
-        if st.session_state.age < 35:
-            recommendation += """
-Young Investor Strategy:
-• National Pension System (NPS)
-• Equity Mutual Fund SIP
-• Public Provident Fund (PPF)
+            recommendation = """
+Low Risk Portfolio
+
+• Public Provident Fund (PPF) – Expected Return: ~7.1% p.a.  
+• Debt Mutual Funds – Expected Return: ~6–7% p.a.  
+• Gold ETFs – Expected Return: ~6–7% p.a.
 """
 
-        elif st.session_state.age < 50:
-            recommendation += """
-Mid-Career Strategy:
-• National Pension System (NPS)
-• Public Provident Fund (PPF)
-• Balanced Mutual Funds
+        elif "medium" in risk:
+
+            recommendation = """
+Moderate Risk Portfolio
+
+• National Pension System (NPS) – Expected Return: ~9–12% p.a.  
+• Balanced Mutual Funds – Expected Return: ~8–10% p.a.  
+• Public Provident Fund (PPF) – Expected Return: ~7.1% p.a.
 """
 
         else:
-            recommendation += """
-Retirement Focus Strategy:
-• Senior Citizen Savings Scheme (SCSS)
-• Pradhan Mantri Vaya Vandana Yojana (PMVVY)
+
+            recommendation = """
+High Risk Growth Portfolio
+
+• Equity Mutual Fund SIP – Expected Return: ~10–12% p.a.  
+• National Pension System (NPS) – Expected Return: ~9–12% p.a.  
+• Index Funds – Expected Return: ~10–11% p.a.
 """
 
-        if st.session_state.income < 30000:
-            recommendation += """
-Additional Scheme:
-• Atal Pension Yojana (APY)
-"""
-
-        if st.session_state.gender.lower() == "female":
-            recommendation += """
-Women-Specific Scheme:
-• Sukanya Samriddhi Yojana (for girl child planning)
-"""
-
-        # Financial Health Score
+        # Financial health score
         savings_ratio = monthly_savings / st.session_state.income
         expense_ratio = st.session_state.expenses / st.session_state.income
         emergency_needed = st.session_state.expenses * 6
@@ -156,27 +149,27 @@ Women-Specific Scheme:
         # Expense analysis
         if expense_ratio > 0.8:
             expense_message = """
-⚠️ Your expenses are very high.
+⚠️ Your expense ratio is very high.
 
-Recommended ratio: 50–60%
+Recommended ratio: 50–60%.
 
 Suggestions:
-• Reduce discretionary spending
-• Follow 50-30-20 budgeting rule
+• Reduce discretionary spending  
+• Follow the 50-30-20 budgeting rule
 """
         elif expense_ratio > 0.6:
-            expense_message = "Your expenses are moderate but can be optimized."
+            expense_message = "Your expenses are moderate but could be optimized."
         else:
             expense_message = "Excellent expense discipline."
 
-        # Emergency fund planner
+        # Emergency fund analysis
         emergency_gap = emergency_needed - st.session_state.savings
 
         if emergency_gap > 0:
             emergency_message = f"""
-Emergency fund required: ₹{emergency_needed}
+Emergency fund required: ₹{emergency_needed:,}
 
-You still need ₹{emergency_gap} to reach financial security.
+You still need ₹{emergency_gap:,} to achieve financial security.
 """
         else:
             emergency_message = "You already have sufficient emergency savings."
@@ -185,11 +178,11 @@ You still need ₹{emergency_gap} to reach financial security.
         readiness_ratio = corpus / retirement_goal
 
         if readiness_ratio >= 1:
-            readiness = "🟢 You are ready for retirement!"
+            readiness = "🟢 Retirement Ready"
         elif readiness_ratio >= 0.6:
-            readiness = "🟡 Moderately prepared for retirement."
+            readiness = "🟡 Moderately Prepared"
         else:
-            readiness = "🔴 High risk – increase savings."
+            readiness = "🔴 High Risk – Increase savings"
 
         # Monthly savings recommendation
         required_monthly = retirement_goal / (years_left * 12)
@@ -199,7 +192,7 @@ To reach a retirement goal of ₹{retirement_goal:,}
 
 You should save approximately ₹{int(required_monthly):,} per month.
 
-Consider investing in SIP with ~10% expected annual return.
+Consider investing via SIP with ~10% expected annual return.
 """
 
         # Retirement wealth projection graph
@@ -213,8 +206,24 @@ Consider investing in SIP with ~10% expected annual return.
 
         data = pd.DataFrame({
             "Year": list(range(1, years_left + 1)),
-            "Projected Savings": projection
+            "Projected Wealth": projection
         })
+
+        fig = px.line(
+            data,
+            x="Year",
+            y="Projected Wealth",
+            markers=True,
+            title="Retirement Wealth Growth Projection"
+        )
+
+        fig.update_layout(
+            xaxis_title="Years Until Retirement",
+            yaxis_title="Projected Wealth (₹)",
+            template="plotly_white"
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
 
         reply = f"""
 ### 📊 Financial Plan
@@ -225,7 +234,7 @@ Years to Retirement: {years_left}
 
 Estimated Retirement Corpus: ₹{corpus:,}
 
-### 🏦 Customized Investment Recommendations
+### 📈 Investment Recommendations (Based on Risk Profile)
 {recommendation}
 
 ### 💡 Financial Health
@@ -237,20 +246,13 @@ Estimated Retirement Corpus: ₹{corpus:,}
 ### 🚑 Emergency Fund
 {emergency_message}
 
-### 📈 Retirement Readiness
+### 📊 Retirement Readiness
 {readiness}
 
 ### 💰 Savings Strategy
 {savings_recommendation}
 """
 
-        st.subheader("📈 Retirement Wealth Projection")
-        st.line_chart(data.set_index("Year"))
-
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": reply
-    })
-
+    st.session_state.messages.append({"role":"assistant","content":reply})
     st.session_state.step += 1
     st.rerun()
