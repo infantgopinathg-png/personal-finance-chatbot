@@ -46,7 +46,7 @@ if user_input:
         st.session_state.savings = int(user_input)
         reply = questions[4]
         
-    elif step == 4:
+elif step == 4:
 
     retirement_age = int(user_input)
 
