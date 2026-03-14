@@ -4,20 +4,25 @@ import plotly.express as px
 
 st.title("💰 Personal Financial Discipline Advisor")
 
+st.markdown(
+"<h5 style='text-align:center;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h5>",
+unsafe_allow_html=True
+)
+
 # Initialize session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.step = 0
 
 questions = [
-    "Hello! I will help you plan your savings and retirement. What is your age?",
-    "What is your gender? (Male/Female/Other)",
-    "What is your monthly income (₹)?",
-    "What are your monthly expenses (₹)?",
-    "How much current savings do you have (₹)?",
-    "At what age do you want to retire?",
-    "What retirement lifestyle do you want? (Basic / Comfortable / Luxury)",
-    "What is your investment risk tolerance? (Low / Medium / High)"
+"Hello! I will help you plan your savings and retirement. What is your age?",
+"What is your gender? (Male/Female/Other)",
+"What is your monthly income (₹)?",
+"What are your monthly expenses (₹)?",
+"How much current savings do you have (₹)?",
+"At what age do you want to retire?",
+"What is your retirement goal corpus? (Example: 30000000 for ₹3 Crore)",
+"What is your investment risk tolerance? (Low / Medium / High)"
 ]
 
 # Display previous messages
@@ -62,55 +67,43 @@ if user_input:
         reply = questions[6]
 
     elif step == 6:
-        st.session_state.lifestyle = user_input
+        st.session_state.retirement_goal = int(user_input)
         reply = questions[7]
 
     elif step == 7:
 
         risk = user_input.lower()
 
-        # Lifestyle-based retirement goal
-        if "basic" in st.session_state.lifestyle.lower():
-            retirement_goal = 15000000
-        elif "luxury" in st.session_state.lifestyle.lower():
-            retirement_goal = 50000000
-        else:
-            retirement_goal = 30000000
-
+        retirement_goal = st.session_state.retirement_goal
         monthly_savings = st.session_state.income - st.session_state.expenses
         years_left = st.session_state.retirement_age - st.session_state.age
 
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
-        # Risk-based portfolio recommendations
+        # Risk-based recommendations
         if "low" in risk:
-
             recommendation = """
 Low Risk Portfolio
 
-• Public Provident Fund (PPF) – Expected Return: ~7.1% p.a.  
-• Debt Mutual Funds – Expected Return: ~6–7% p.a.  
-• Gold ETFs – Expected Return: ~6–7% p.a.
+• Public Provident Fund (PPF) – Expected Return: ~7.1%  
+• Debt Mutual Funds – Expected Return: ~6–7%  
+• Gold ETFs – Expected Return: ~6–7%
 """
-
         elif "medium" in risk:
-
             recommendation = """
 Moderate Risk Portfolio
 
-• National Pension System (NPS) – Expected Return: ~9–12% p.a.  
-• Balanced Mutual Funds – Expected Return: ~8–10% p.a.  
-• Public Provident Fund (PPF) – Expected Return: ~7.1% p.a.
+• National Pension System (NPS) – Expected Return: ~9–12%  
+• Balanced Mutual Funds – Expected Return: ~8–10%  
+• Public Provident Fund (PPF) – Expected Return: ~7.1%
 """
-
         else:
-
             recommendation = """
 High Risk Growth Portfolio
 
-• Equity Mutual Fund SIP – Expected Return: ~10–12% p.a.  
-• National Pension System (NPS) – Expected Return: ~9–12% p.a.  
-• Index Funds – Expected Return: ~10–11% p.a.
+• Equity Mutual Fund SIP – Expected Return: ~10–12%  
+• National Pension System (NPS) – Expected Return: ~9–12%  
+• Index Funds – Expected Return: ~10–11%
 """
 
         # Financial health score
@@ -151,10 +144,10 @@ High Risk Growth Portfolio
             expense_message = """
 ⚠️ Your expense ratio is very high.
 
-Recommended ratio: 50–60%.
+Recommended ratio: 50–60%
 
 Suggestions:
-• Reduce discretionary spending  
+• Reduce discretionary spending
 • Follow the 50-30-20 budgeting rule
 """
         elif expense_ratio > 0.6:
@@ -162,14 +155,14 @@ Suggestions:
         else:
             expense_message = "Excellent expense discipline."
 
-        # Emergency fund analysis
+        # Emergency fund planner
         emergency_gap = emergency_needed - st.session_state.savings
 
         if emergency_gap > 0:
             emergency_message = f"""
 Emergency fund required: ₹{emergency_needed:,}
 
-You still need ₹{emergency_gap:,} to achieve financial security.
+You need ₹{emergency_gap:,} more for financial security.
 """
         else:
             emergency_message = "You already have sufficient emergency savings."
@@ -188,14 +181,14 @@ You still need ₹{emergency_gap:,} to achieve financial security.
         required_monthly = retirement_goal / (years_left * 12)
 
         savings_recommendation = f"""
-To reach a retirement goal of ₹{retirement_goal:,}
+To reach your retirement goal of ₹{retirement_goal:,}
 
 You should save approximately ₹{int(required_monthly):,} per month.
 
-Consider investing via SIP with ~10% expected annual return.
+Consider investing via SIP with ~10% expected return.
 """
 
-        # Retirement wealth projection graph
+        # Retirement projection graph
         annual_return = 0.10
         balance = st.session_state.savings
         projection = []
@@ -228,13 +221,15 @@ Consider investing via SIP with ~10% expected annual return.
         reply = f"""
 ### 📊 Financial Plan
 
+Your Retirement Goal: ₹{retirement_goal:,}
+
 Monthly Savings: ₹{monthly_savings:,}
 
 Years to Retirement: {years_left}
 
 Estimated Retirement Corpus: ₹{corpus:,}
 
-### 📈 Investment Recommendations (Based on Risk Profile)
+### 📈 Investment Recommendations
 {recommendation}
 
 ### 💡 Financial Health
@@ -256,3 +251,10 @@ Estimated Retirement Corpus: ₹{corpus:,}
     st.session_state.messages.append({"role":"assistant","content":reply})
     st.session_state.step += 1
     st.rerun()
+
+# Footer
+st.markdown("---")
+st.markdown(
+"<h5 style='text-align:center;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h5>",
+unsafe_allow_html=True
+)
