@@ -74,14 +74,14 @@ Recommended Government Retirement Schemes:
 • Pradhan Mantri Vaya Vandana Yojana (PMVVY)
 """
 
-        savings_rate = monthly_savings / st.session_state.income
+savings_rate = monthly_savings / st.session_state.income
 
-        if savings_rate < 0.2:
-            advice = "⚠️ Increase savings to at least 20% of income."
-        elif savings_rate < 0.4:
-            advice = "👍 Good savings discipline."
-        else:
-            advice = "🎉 Excellent financial discipline."
+if savings_rate < 0.2:
+    advice = "⚠ Increase savings to at least 20% of income."
+elif savings_rate < 0.4:
+    advice = "👍 Good savings discipline."
+else:
+    advice = "🎉 Excellent financial discipline."
 
         reply = f"""
 ### Financial Plan
