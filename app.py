@@ -251,10 +251,3 @@ Estimated Retirement Corpus: ₹{corpus:,}
     st.session_state.messages.append({"role":"assistant","content":reply})
     st.session_state.step += 1
     st.rerun()
-
-# Footer
-st.markdown("---")
-st.markdown(
-"<h5 style='text-align:center;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h5>",
-unsafe_allow_html=True
-)
