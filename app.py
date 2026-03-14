@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.title("💰 Personal Financial Discipline Advisor")
 
@@ -17,22 +18,28 @@ questions = [
     "What retirement lifestyle do you want? (Basic / Comfortable / Luxury)"
 ]
 
-# Display previous messages
+# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-# Chat input
 user_input = st.chat_input("Type your answer")
 
 # Start conversation
 if st.session_state.step == 0 and len(st.session_state.messages) == 0:
-    st.session_state.messages.append({"role":"assistant","content":questions[0]})
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": questions[0]
+    })
     st.rerun()
 
 if user_input:
 
-    st.session_state.messages.append({"role":"user","content":user_input})
+    st.session_state.messages.append({
+        "role": "user",
+        "content": user_input
+    })
+
     step = st.session_state.step
 
     if step == 0:
@@ -63,7 +70,6 @@ if user_input:
 
         lifestyle = user_input.lower()
 
-        # Lifestyle retirement goal
         if "basic" in lifestyle:
             retirement_goal = 15000000
         elif "luxury" in lifestyle:
@@ -73,20 +79,45 @@ if user_input:
 
         monthly_savings = st.session_state.income - st.session_state.expenses
         years_left = st.session_state.retirement_age - st.session_state.age
+
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
-        # Government scheme suggestion
-        if st.session_state.age < 40:
-            recommendation = """
+        # Customized scheme recommendation
+        recommendation = ""
+
+        if st.session_state.age < 35:
+            recommendation += """
+Young Investor Strategy:
+• National Pension System (NPS)
+• Equity Mutual Fund SIP
+• Public Provident Fund (PPF)
+"""
+
+        elif st.session_state.age < 50:
+            recommendation += """
+Mid-Career Strategy:
 • National Pension System (NPS)
 • Public Provident Fund (PPF)
-• Atal Pension Yojana (APY)
+• Balanced Mutual Funds
 """
+
         else:
-            recommendation = """
-• National Pension System (NPS)
+            recommendation += """
+Retirement Focus Strategy:
 • Senior Citizen Savings Scheme (SCSS)
 • Pradhan Mantri Vaya Vandana Yojana (PMVVY)
+"""
+
+        if st.session_state.income < 30000:
+            recommendation += """
+Additional Scheme:
+• Atal Pension Yojana (APY)
+"""
+
+        if st.session_state.gender.lower() == "female":
+            recommendation += """
+Women-Specific Scheme:
+• Sukanya Samriddhi Yojana (for girl child planning)
 """
 
         # Financial Health Score
@@ -131,24 +162,24 @@ Recommended ratio: 50–60%
 
 Suggestions:
 • Reduce discretionary spending
-• Follow 50-30-20 rule
+• Follow 50-30-20 budgeting rule
 """
         elif expense_ratio > 0.6:
-            expense_message = "Your expenses are moderate but can be improved."
+            expense_message = "Your expenses are moderate but can be optimized."
         else:
             expense_message = "Excellent expense discipline."
 
-        # Emergency fund
+        # Emergency fund planner
         emergency_gap = emergency_needed - st.session_state.savings
 
         if emergency_gap > 0:
             emergency_message = f"""
 Emergency fund required: ₹{emergency_needed}
 
-You still need ₹{emergency_gap} to reach financial safety.
+You still need ₹{emergency_gap} to reach financial security.
 """
         else:
-            emergency_message = "You already have a sufficient emergency fund."
+            emergency_message = "You already have sufficient emergency savings."
 
         # Retirement readiness
         readiness_ratio = corpus / retirement_goal
@@ -156,9 +187,9 @@ You still need ₹{emergency_gap} to reach financial safety.
         if readiness_ratio >= 1:
             readiness = "🟢 You are ready for retirement!"
         elif readiness_ratio >= 0.6:
-            readiness = "🟡 You are moderately prepared."
+            readiness = "🟡 Moderately prepared for retirement."
         else:
-            readiness = "🔴 You need to increase savings."
+            readiness = "🔴 High risk – increase savings."
 
         # Monthly savings recommendation
         required_monthly = retirement_goal / (years_left * 12)
@@ -168,8 +199,22 @@ To reach a retirement goal of ₹{retirement_goal:,}
 
 You should save approximately ₹{int(required_monthly):,} per month.
 
-Consider investing through SIP with ~10% annual return.
+Consider investing in SIP with ~10% expected annual return.
 """
+
+        # Retirement wealth projection graph
+        annual_return = 0.10
+        balance = st.session_state.savings
+        projection = []
+
+        for year in range(1, years_left + 1):
+            balance = (balance + monthly_savings * 12) * (1 + annual_return)
+            projection.append(balance)
+
+        data = pd.DataFrame({
+            "Year": list(range(1, years_left + 1)),
+            "Projected Savings": projection
+        })
 
         reply = f"""
 ### 📊 Financial Plan
@@ -180,7 +225,7 @@ Years to Retirement: {years_left}
 
 Estimated Retirement Corpus: ₹{corpus:,}
 
-### 🏦 Recommended Government Schemes
+### 🏦 Customized Investment Recommendations
 {recommendation}
 
 ### 💡 Financial Health
@@ -199,6 +244,13 @@ Estimated Retirement Corpus: ₹{corpus:,}
 {savings_recommendation}
 """
 
-    st.session_state.messages.append({"role":"assistant","content":reply})
+        st.subheader("📈 Retirement Wealth Projection")
+        st.line_chart(data.set_index("Year"))
+
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": reply
+    })
+
     st.session_state.step += 1
     st.rerun()
