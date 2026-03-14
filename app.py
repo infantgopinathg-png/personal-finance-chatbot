@@ -2,10 +2,15 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.title("💰 Personal Financial Discipline Advisor")
-
+# Custom Title (single line)
 st.markdown(
-"<h5 style='text-align:center;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h5>",
+"<h1 style='text-align:center; white-space:nowrap;'>💰 Personal Financial Discipline Advisor</h1>",
+unsafe_allow_html=True
+)
+
+# Developer Credit
+st.markdown(
+"<h5 style='text-align:center; margin-top:-10px;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h5>",
 unsafe_allow_html=True
 )
 
@@ -25,14 +30,14 @@ questions = [
 "What is your investment risk tolerance? (Low / Medium / High)"
 ]
 
-# Display previous messages
+# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
 user_input = st.chat_input("Type your answer")
 
-# Start conversation
+# Start chat
 if st.session_state.step == 0 and len(st.session_state.messages) == 0:
     st.session_state.messages.append({"role":"assistant","content":questions[0]})
     st.rerun()
@@ -80,7 +85,7 @@ if user_input:
 
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
-        # Risk-based recommendations
+        # Risk based investment suggestions
         if "low" in risk:
             recommendation = """
 Low Risk Portfolio
@@ -89,6 +94,7 @@ Low Risk Portfolio
 • Debt Mutual Funds – Expected Return: ~6–7%  
 • Gold ETFs – Expected Return: ~6–7%
 """
+
         elif "medium" in risk:
             recommendation = """
 Moderate Risk Portfolio
@@ -97,6 +103,7 @@ Moderate Risk Portfolio
 • Balanced Mutual Funds – Expected Return: ~8–10%  
 • Public Provident Fund (PPF) – Expected Return: ~7.1%
 """
+
         else:
             recommendation = """
 High Risk Growth Portfolio
@@ -185,10 +192,10 @@ To reach your retirement goal of ₹{retirement_goal:,}
 
 You should save approximately ₹{int(required_monthly):,} per month.
 
-Consider investing via SIP with ~10% expected return.
+Consider investing via SIP with ~10% expected annual return.
 """
 
-        # Retirement projection graph
+        # Retirement wealth projection graph
         annual_return = 0.10
         balance = st.session_state.savings
         projection = []
