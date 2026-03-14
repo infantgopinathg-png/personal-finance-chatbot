@@ -58,7 +58,7 @@ if user_input:
         corpus = (monthly_savings * 12 * years_left) + st.session_state.savings
 
         if st.session_state.age < 40:
-        recommendation = """
+            recommendation = """
 Recommended Government Retirement Schemes:
 
 • National Pension System (NPS)
