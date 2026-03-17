@@ -190,36 +190,52 @@ if st.button("Analyze Financial Plan"):
     st.plotly_chart(pie)
 
     # ---------- Readiness gauge ----------
+
+    # Readiness %
     readiness_percent = min(int((corpus / retirement_goal) * 100), 100)
 
     st.subheader("Retirement Readiness")
 
+    # Convert value to angle
+    angle = np.pi * (1 - readiness_percent / 100)
+
+    # Arrow end point
+    x = 0.5 + 0.35 * np.cos(angle)
+    y = 0.5 + 0.35 * np.sin(angle)
+
     gauge = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
+        mode="gauge+number",
         value=readiness_percent,
         title={'text': "Readiness %"},
     
         gauge={
             'axis': {'range': [0, 100]},
+            'bar': {'color': "rgba(0,0,0,0)"},   # hide bar
         
-            # Color zones
             'steps': [
                 {'range': [0, 30], 'color': "red"},
                 {'range': [30, 60], 'color': "orange"},
                 {'range': [60, 100], 'color': "green"}
-            ],
-        
-            # Remove black fill
-            'bar': {'color': "rgba(0,0,0,0)"},
-        
-            # Needle style
-            'threshold': {
-                'line': {'color': "black", 'width': 4},
-                'thickness': 0.75,
-                'value': readiness_percent
-            }
-        }
+            ]
+        }    
     ))
+
+    # Add arrow needle
+    gauge.add_shape(
+        type="line",
+        x0=0.5, y0=0.5,
+        x1=x, y1=y,
+        line=dict(color="black", width=5)
+    )
+
+    # Add center circle
+    gauge.add_shape(
+        type="circle",
+        x0=0.48, y0=0.48,
+        x1=0.52, y1=0.52,
+        fillcolor="black",
+        line_color="black"
+    )
 
     st.plotly_chart(gauge, use_container_width=True)
 
