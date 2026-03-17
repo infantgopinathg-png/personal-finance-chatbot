@@ -105,16 +105,15 @@ if st.button("Analyze Financial Plan"):
     savings_ratio = (monthly_savings / income) * 100 if income else 0
 
     # ---------- Financial health score ----------
-    score = financial_health_score
-
-    if score <= 40:
-        color = "red"
-    elif score <= 70:
-        color = "orange"
-    else:
-        color = "green"
-
-    st.progress(score/100)
+    score = 0
+    if savings_ratio >= 20:
+        score += 30
+    if savings > expenses * 6:
+        score += 30
+    if monthly_savings > 0:
+        score += 20
+    if income > expenses:
+        score += 20
 
     st.markdown(f"### Score: {score}/100")
 
