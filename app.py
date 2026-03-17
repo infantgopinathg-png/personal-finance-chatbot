@@ -178,15 +178,9 @@ if st.button("Analyze Financial Plan"):
     col3.metric("Projected Corpus", f"₹{corpus:,}")
 
     # ---------- Financial health score ----------
-    score = 0
-    if savings_ratio >= 20:
-        score += 30
-    if savings > expenses * 6:
-        score += 30
-    if monthly_savings > 0:
-        score += 20
-    if income > expenses:
-        score += 20
+    st.subheader("Financial Health Score")
+    st.progress(score/100)
+    st.write(f"Score: **{score}/100**")
 
 
     # ---------- Feasibility ----------
