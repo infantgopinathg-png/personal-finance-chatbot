@@ -194,56 +194,51 @@ if st.button("Analyze Financial Plan"):
     readiness_percent = min(int((corpus / retirement_goal) * 100), 100)
     st.subheader("Retirement Readiness")
     
-    # Convert value to angle (0 → 180°, 100 → 0°)
-    angle_rad = np.radians(180 - (readiness_percent / 100) * 180)
-    
-    # Needle tip coordinates in paper space
-    cx, cy = 0.5, 0.0          # center of gauge in paper coords
-    length  = 0.65             # needle length
-    
-    tip_x = cx + length * np.cos(angle_rad)
-    tip_y = cy + length * np.sin(angle_rad)
-    
-    gauge = go.Figure()
-    
-    gauge.add_trace(go.Indicator(
+    gauge = go.Figure(go.Indicator(
         mode="gauge+number",
         value=readiness_percent,
         title={'text': "Readiness %"},
         gauge={
-            'axis': {'range': [0, 100]},
+            'axis': {
+                'range': [0, 100],
+                'tickwidth': 1,
+                'tickcolor': "gray",
+                'ticklen': 8,
+                'nticks': 21
+            },
             'steps': [
                 {'range': [0, 30],  'color': "red"},
                 {'range': [31, 59], 'color': "orange"},
                 {'range': [60, 100],'color': "green"}
             ],
-            'bar': {'color': "rgba(0,0,0,0)"},   # transparent bar
-        }
+            'bar': {
+                'color': "darkslategray",
+                'thickness': 0.03,   # ← very thin = needle look
+                'line': {
+                    'color': "darkslategray",
+                    'width': 1
+                }
+            },
+            'bgcolor': "white",
+            'borderwidth': 2,
+            'bordercolor': "lightgray",
+            'threshold': {
+                'line': {'color': "silver", 'width': 6},
+                'thickness': 0.2,
+                'value': readiness_percent
+            }
+        },
+        number={'font': {'size': 48, 'color': "slategray"}}
     ))
     
-    # Needle line
-    gauge.add_shape(
-        type="line",
-        x0=cx, y0=cy,
-        x1=tip_x, y1=tip_y,
-        xref="paper", yref="paper",
-        line=dict(color="black", width=4)
+    gauge.update_layout(
+        height=380,
+        margin=dict(t=80, b=30, l=40, r=40),
+        paper_bgcolor="white",
+        font={'color': "slategray", 'family': "Arial"}
     )
-    
-    # Center dot
-    gauge.add_shape(
-        type="circle",
-        x0=cx - 0.012, y0=cy - 0.025,
-        x1=cx + 0.012, y1=cy + 0.025,
-        xref="paper", yref="paper",
-        fillcolor="black",
-        line_color="black"
-    )
-    
-    gauge.update_layout(height=350)
     
     st.plotly_chart(gauge, use_container_width=True)
-
     # ---------- Wealth graph ----------
     st.subheader("Retirement Wealth Projection")
 
