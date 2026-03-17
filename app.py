@@ -198,7 +198,7 @@ if st.button("Analyze Financial Plan"):
     angle_rad = np.radians(180 - (readiness_percent / 100) * 180)
     
     # Needle tip coordinates in paper space
-    cx, cy = 0.5, 0.3          # center of gauge in paper coords
+    cx, cy = 0.5, 0.1          # center of gauge in paper coords
     length  = 0.50               # needle length
     
     tip_x = cx + length * np.cos(angle_rad)
