@@ -200,7 +200,7 @@ if st.button("Analyze Financial Plan"):
     angle_rad = np.radians(180 - (readiness_percent / 100) * 180)
     
     # Needle coordinates in gauge's own domain (-1 to 1)
-    needle_length = 0.75
+    needle_length = 1
     needle_tip_x  = needle_length * np.cos(angle_rad)
     needle_tip_y  = needle_length * np.sin(angle_rad)
     
