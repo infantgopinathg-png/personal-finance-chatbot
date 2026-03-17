@@ -225,6 +225,7 @@ gauge = go.Figure(go.Indicator(
 ))
 
 st.plotly_chart(gauge)
+
     # ---------- Wealth graph ----------
     st.subheader("Retirement Wealth Projection")
 
