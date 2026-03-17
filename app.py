@@ -227,7 +227,7 @@ gauge = go.Figure(go.Indicator(
 st.plotly_chart(gauge)
 
     # ---------- Wealth graph ----------
-    st.subheader("Retirement Wealth Projection")
+        st.subheader("Retirement Wealth Projection")
 
     fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
     st.plotly_chart(fig)
