@@ -178,9 +178,18 @@ if st.button("Analyze Financial Plan"):
     col3.metric("Projected Corpus", f"₹{corpus:,}")
 
     # ---------- Financial Health ----------
-    st.subheader("Financial Health Score")
-    st.progress(score/100)
-    st.write(f"Score: **{score}/100**")
+    score = financial_health_score
+
+    if score <= 40:
+        color = "red"
+    elif score <= 70:
+        color = "orange"
+    else:
+        color = "green"
+
+st.progress(score/100)
+
+st.markdown(f"### Score: {score}/100")
 
     # ---------- Feasibility ----------
     st.subheader("Retirement Feasibility")
