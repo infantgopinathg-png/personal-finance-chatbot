@@ -190,55 +190,96 @@ if st.button("Analyze Financial Plan"):
     pie = px.pie(values=list(portfolio.values()), names=list(portfolio.keys()))
     st.plotly_chart(pie)
 
-    # ---------- Readiness gauge ----------
+   # ---------- Readiness gauge ----------
     readiness_percent = min(int((corpus / retirement_goal) * 100), 100)
     st.subheader("Retirement Readiness")
     
-    gauge = go.Figure(go.Indicator(
+    import numpy as np
+    
+    # Angle: 0 → 180°(left), 100 → 0°(right)
+    angle_rad = np.radians(180 - (readiness_percent / 100) * 180)
+    
+    # Needle coordinates in gauge's own domain (-1 to 1)
+    needle_length = 0.75
+    needle_tip_x  = needle_length * np.cos(angle_rad)
+    needle_tip_y  = needle_length * np.sin(angle_rad)
+    
+    # Thin base of needle (perpendicular spread)
+    perp = angle_rad + np.pi / 2
+    base_w = 0.03
+    bx1 = base_w * np.cos(perp)
+    by1 = base_w * np.sin(perp)
+    bx2 = -bx1
+    by2 = -by1
+    
+    gauge = go.Figure()
+    
+    # Gauge background (no bar)
+    gauge.add_trace(go.Indicator(
         mode="gauge+number",
         value=readiness_percent,
         title={'text': "Readiness %"},
+        domain={'x': [0, 1], 'y': [0, 1]},
         gauge={
             'axis': {
                 'range': [0, 100],
                 'tickwidth': 1,
                 'tickcolor': "gray",
-                'ticklen': 8,
-                'nticks': 21
+                'ticklen': 6,
+                'nticks': 11
             },
             'steps': [
                 {'range': [0, 30],  'color': "red"},
                 {'range': [31, 59], 'color': "orange"},
                 {'range': [60, 100],'color': "green"}
             ],
-            'bar': {
-                'color': "darkslategray",
-                'thickness': 0.03,   # ← very thin = needle look
-                'line': {
-                    'color': "darkslategray",
-                    'width': 1
-                }
-            },
+            'bar': {'color': "rgba(0,0,0,0)", 'thickness': 0},
             'bgcolor': "white",
             'borderwidth': 2,
             'bordercolor': "lightgray",
-            'threshold': {
-                'line': {'color': "silver", 'width': 6},
-                'thickness': 0.2,
-                'value': readiness_percent
-            }
         },
         number={'font': {'size': 48, 'color': "slategray"}}
+    ))
+    
+    # Needle triangle
+    gauge.add_trace(go.Scatter(
+        x=[bx1, needle_tip_x, bx2, bx1],
+        y=[by1, needle_tip_y, by2, by1],
+        mode="lines",
+        fill="toself",
+        fillcolor="dimgray",
+        line=dict(color="dimgray", width=1),
+        showlegend=False,
+        hoverinfo="skip",
+        xaxis="x", yaxis="y"
+    ))
+    
+    # Center silver ball
+    gauge.add_trace(go.Scatter(
+        x=[0], y=[0],
+        mode="markers",
+        marker=dict(
+            color="silver",
+            size=18,
+            line=dict(color="gray", width=2)
+        ),
+        showlegend=False,
+        hoverinfo="skip",
+        xaxis="x", yaxis="y"
     ))
     
     gauge.update_layout(
         height=380,
         margin=dict(t=80, b=30, l=40, r=40),
         paper_bgcolor="white",
-        font={'color': "slategray", 'family': "Arial"}
+        plot_bgcolor="rgba(0,0,0,0)",
+        font={'color': "slategray", 'family': "Arial"},
+        xaxis=dict(visible=False, range=[-1, 1], domain=[0, 1]),
+        yaxis=dict(visible=False, range=[-0.5, 1], domain=[0, 1]),
     )
     
     st.plotly_chart(gauge, use_container_width=True)
+
     # ---------- Wealth graph ----------
     st.subheader("Retirement Wealth Projection")
 
