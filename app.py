@@ -178,9 +178,47 @@ if st.button("Analyze Financial Plan"):
     col3.metric("Projected Corpus", f"₹{corpus:,}")
 
     # ---------- Financial health score ----------
+   
     st.subheader("Financial Health Score")
+    
+    # Decide color based on score
+    if score <= 40:
+        color = "#ff4b4b"   # red
+        status = "Poor Financial Health"
+        message = "Your savings are low compared to income. Try reducing expenses and increasing savings."
+    elif score <= 70:
+        color = "#ffa500"   # orange
+        status = "Moderate Financial Health"
+        message = "You are on the right track, but improving savings will strengthen your financial future."
+    else:
+        color = "#28a745"   # green
+        status = "Strong Financial Health"
+        message = "Excellent financial discipline! You are maintaining healthy savings habits."
+    
+    # CSS to change progress bar color
+    st.markdown(f"""
+    <style>
+    div.stProgress > div > div > div > div {{
+        background-color: {color};
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Progress bar
     st.progress(score/100)
+    
+    # Score text
     st.write(f"Score: **{score}/100**")
+    
+    # Status message
+    if score <= 40:
+        st.error(f"⚠ {status}")
+    elif score <= 70:
+        st.warning(f"⚠ {status}")
+    else:
+        st.success(f"✔ {status}")
+    
+    st.write(message)
 
 
     # ---------- Feasibility ----------
