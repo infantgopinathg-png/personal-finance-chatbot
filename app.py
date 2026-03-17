@@ -195,7 +195,7 @@ if st.button("Analyze Financial Plan"):
     
     st.subheader("Retirement Readiness")
     
-    # Decide color based on value
+    # Change color based on readiness
     if readiness_percent <= 30:
         gauge_color = "red"
     elif readiness_percent <= 59:
@@ -210,16 +210,7 @@ if st.button("Analyze Financial Plan"):
         
         gauge={
             'axis': {'range': [0, 100]},
-            
-            # Only one bar with dynamic color
-            'bar': {'color': gauge_color},
-            
-            # Light background zones (optional)
-            'steps': [
-                {'range': [0, 30], 'color': "#ffcccc"},
-                {'range': [30, 60], 'color': "#ffe5b4"},
-                {'range': [60, 100], 'color': "#ccffcc"}
-            ]
+            'bar': {'color': gauge_color}
         }
     ))
     
