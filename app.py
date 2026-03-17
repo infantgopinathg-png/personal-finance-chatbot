@@ -199,7 +199,7 @@ if st.button("Analyze Financial Plan"):
     
     # Needle tip coordinates in paper space
     cx, cy = 0.5, 0.0          # center of gauge in paper coords
-    length  = 0.80             # needle length
+    length  = 0.65             # needle length
     
     tip_x = cx + length * np.cos(angle_rad)
     tip_y = cy + length * np.sin(angle_rad)
