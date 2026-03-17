@@ -195,24 +195,33 @@ if st.button("Analyze Financial Plan"):
     st.subheader("Retirement Readiness")
 
     gauge = go.Figure(go.Indicator(
-        mode="gauge+number",
+        mode="gauge+number+delta",
         value=readiness_percent,
         title={'text': "Readiness %"},
     
-    gauge={
-        'axis': {'range': [0, 100]},
+        gauge={
+            'axis': {'range': [0, 100]},
         
-        'steps': [
-            {'range': [0, 30], 'color': "red"},
-            {'range': [31, 59], 'color': "orange"},
-            {'range': [60, 100], 'color': "green"}
+            # Color zones
+            'steps': [
+                {'range': [0, 30], 'color': "red"},
+                {'range': [30, 60], 'color': "orange"},
+                {'range': [60, 100], 'color': "green"}
             ],
         
-            'bar': {'color': "black"}  # pointer color
+            # Remove black fill
+            'bar': {'color': "rgba(0,0,0,0)"},
+        
+            # Needle style
+            'threshold': {
+                'line': {'color': "black", 'width': 4},
+                'thickness': 0.75,
+                'value': readiness_percent
+            }
         }
     ))
 
-    st.plotly_chart(gauge)
+    st.plotly_chart(gauge, use_container_width=True)
 
     # ---------- Wealth graph ----------
     st.subheader("Retirement Wealth Projection")
