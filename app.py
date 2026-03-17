@@ -190,15 +190,26 @@ if st.button("Analyze Financial Plan"):
     st.plotly_chart(pie)
 
     # ---------- Readiness gauge ----------
-    readiness_percent = min(int((corpus/retirement_goal)*100),100)
+    readiness_percent = min(int((corpus / retirement_goal) * 100), 100)
 
     st.subheader("Retirement Readiness")
 
     gauge = go.Figure(go.Indicator(
         mode="gauge+number",
         value=readiness_percent,
-        title={'text':"Readiness %"},
-        gauge={'axis':{'range':[0,100]}}
+        title={'text': "Readiness %"},
+    
+    gauge={
+        'axis': {'range': [0, 100]},
+        
+        'steps': [
+            {'range': [0, 30], 'color': "red"},
+            {'range': [31, 59], 'color': "orange"},
+            {'range': [60, 100], 'color': "green"}
+            ],
+        
+            'bar': {'color': "black"}  # pointer color
+        }
     ))
 
     st.plotly_chart(gauge)
