@@ -218,7 +218,7 @@ if st.button("Analyze Financial Plan"):
         value=readiness_percent,
         title={'text': "Readiness %"},
         domain={'x': [0, 1], 'y': [0.15, 1]},
-        gauge={
+    gauge={
             'axis': {
                 'range': [0, 100],
                 'tickwidth': 1,
