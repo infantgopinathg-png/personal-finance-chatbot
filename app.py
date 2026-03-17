@@ -190,19 +190,41 @@ if st.button("Analyze Financial Plan"):
     st.plotly_chart(pie)
 
     # ---------- Readiness gauge ----------
-    readiness_percent = min(int((corpus/retirement_goal)*100),100)
+readiness_percent = min(int((corpus/retirement_goal)*100),100)
 
-    st.subheader("Retirement Readiness")
+st.subheader("Retirement Readiness")
 
-    gauge = go.Figure(go.Indicator(
-        mode="gauge+number",
-        value=readiness_percent,
-        title={'text':"Readiness %"},
-        gauge={'axis':{'range':[0,100]}}
-    ))
+if readiness_percent <= 30:
+    bar_color = "red"
+    needle_color = "darkred"
+elif readiness_percent <= 59:
+    bar_color = "orange"
+    needle_color = "darkorange"
+else:
+    bar_color = "green"
+    needle_color = "darkgreen"
 
-    st.plotly_chart(gauge)
+gauge = go.Figure(go.Indicator(
+    mode="gauge+number",
+    value=readiness_percent,
+    title={'text': "Readiness %"},
+    gauge={
+        'axis': {'range': [0, 100]},
+        'bar': {'color': bar_color},
+        'steps': [
+            {'range': [0, 30],  'color': '#ffcccc'},   # light red
+            {'range': [30, 60], 'color': '#ffe5b4'},   # light orange
+            {'range': [60, 100],'color': '#ccffcc'},   # light green
+        ],
+        'threshold': {
+            'line': {'color': needle_color, 'width': 4},
+            'thickness': 0.75,
+            'value': readiness_percent
+        }
+    }
+))
 
+st.plotly_chart(gauge)
     # ---------- Wealth graph ----------
     st.subheader("Retirement Wealth Projection")
 
