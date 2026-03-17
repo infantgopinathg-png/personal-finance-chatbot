@@ -193,18 +193,19 @@ if st.button("Analyze Financial Plan"):
     # ---------- Readiness gauge ----------
     readiness_percent = min(int((corpus / retirement_goal) * 100), 100)
     st.subheader("Retirement Readiness")
-
-    # Convert gauge value to angle (180° = 0, 0° = 100)
-    angle = 180 - (readiness_percent / 100) * 180
-    angle_rad = np.radians(angle)
-
-    # Needle tip and base coordinates
-    needle_x = 0.5 * np.cos(angle_rad)
-    needle_y = 0.5 * np.sin(angle_rad)
-
+    
+    # Convert value to angle (0 → 180°, 100 → 0°)
+    angle_rad = np.radians(180 - (readiness_percent / 100) * 180)
+    
+    # Needle tip coordinates in paper space
+    cx, cy = 0.5, 0.175          # center of gauge in paper coords
+    length  = 0.30               # needle length
+    
+    tip_x = cx + length * np.cos(angle_rad)
+    tip_y = cy + length * np.sin(angle_rad)
+    
     gauge = go.Figure()
-
-    # Add the gauge indicator (no bar, no threshold)
+    
     gauge.add_trace(go.Indicator(
         mode="gauge+number",
         value=readiness_percent,
@@ -216,35 +217,32 @@ if st.button("Analyze Financial Plan"):
                 {'range': [31, 59], 'color': "orange"},
                 {'range': [60, 100],'color': "green"}
             ],
-            'bar': {'color': "rgba(0,0,0,0)"},  # transparent bar
+            'bar': {'color': "rgba(0,0,0,0)"},   # transparent bar
         }
     ))
-
-    # Add needle arrow
-    gauge.add_annotation(
-        ax=0.5, ay=0.15,           # base of needle (center of gauge)
-        x=0.5 + 0.35 * np.cos(angle_rad),
-        y=0.15 + 0.35 * np.sin(angle_rad),
+    
+    # Needle line
+    gauge.add_shape(
+        type="line",
+        x0=cx, y0=cy,
+        x1=tip_x, y1=tip_y,
         xref="paper", yref="paper",
-        axref="paper", ayref="paper",
-        showarrow=True,
-        arrowhead=2,
-        arrowsize=1.5,
-        arrowwidth=3,
-        arrowcolor="black"
+        line=dict(color="black", width=4)
     )
     
-    # Add center dot
+    # Center dot
     gauge.add_shape(
         type="circle",
-        x0=0.47, y0=0.08,
-        x1=0.53, y1=0.22,
+        x0=cx - 0.012, y0=cy - 0.025,
+        x1=cx + 0.012, y1=cy + 0.025,
         xref="paper", yref="paper",
         fillcolor="black",
         line_color="black"
     )
     
-    st.plotly_chart(gauge)
+    gauge.update_layout(height=350)
+    
+    st.plotly_chart(gauge, use_container_width=True)
 
     # ---------- Wealth graph ----------
     st.subheader("Retirement Wealth Projection")
