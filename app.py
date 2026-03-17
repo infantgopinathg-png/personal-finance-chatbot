@@ -274,11 +274,11 @@ if st.button("Analyze Financial Plan"):
     else:
         st.success("🎉 Your projected savings are sufficient to achieve your retirement goal!")
        
-        # ---------- Wealth graph ----------
-        st.subheader("Retirement Wealth Projection")
+    # ---------- Wealth graph ----------
+    st.subheader("Retirement Wealth Projection")
     
-        fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
-        st.plotly_chart(fig)
+    fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
+    st.plotly_chart(fig)
 
     # ---------- Inflation ----------
     st.subheader("Inflation Impact")
