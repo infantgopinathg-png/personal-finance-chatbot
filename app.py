@@ -219,19 +219,19 @@ if st.button("Analyze Financial Plan"):
         title={'text': "Readiness %"},
         domain={'x': [0, 1], 'y': [0.15, 1]},
     gauge={
-            'axis': {
+            axis': {
                 'range': [0, 100],
                 'tickwidth': 1,
-                'tickcolor': "gray",
-                'ticklen': 6,
-                'nticks': 11
+                 'tickcolor': "gray",
+                 'ticklen': 6,
+                 'nticks': 11
             },
             'steps': [
                 {'range': [0, 30],  'color': "red"},
                 {'range': [31, 59], 'color': "orange"},
                 {'range': [60, 100],'color': "green"}
             ],
-            'bar': {'color': "rgba(0,0,0,0)", 'thickness': 0},
+    'bar': {'color': "rgba(0,0,0,0)", 'thickness': 0},
    
     # ---------- Wealth graph ----------
     st.subheader("Retirement Wealth Projection")
