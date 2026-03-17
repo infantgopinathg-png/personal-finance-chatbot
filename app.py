@@ -256,12 +256,29 @@ if st.button("Analyze Financial Plan"):
     ))
     
     st.plotly_chart(gauge, use_container_width=True)
-   
-    # ---------- Wealth graph ----------
-    st.subheader("Retirement Wealth Projection")
 
-    fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
-    st.plotly_chart(fig)
+    # ---------- Retirement readiness advice ----------
+    if readiness_percent <= 30:
+        st.error("⚠ Low Retirement Readiness. Increase savings or extend retirement age.")
+    elif readiness_percent <= 60:
+        st.warning("⚠ Moderate Retirement Readiness. Consider increasing investments.")
+    else:
+        st.success("✔ Strong Retirement Readiness. You are on track for retirement.")
+    
+    # ---------- Savings required to reach goal ----------
+    gap = retirement_goal - corpus
+    
+    if gap > 0 and years_left > 0:
+        required_monthly = gap / (years_left * 12)
+        st.info(f"To reach your retirement goal, you need to save approximately **₹{int(required_monthly):,} per month**.")
+    else:
+        st.success("🎉 Your projected savings are sufficient to achieve your retirement goal!")
+       
+        # ---------- Wealth graph ----------
+        st.subheader("Retirement Wealth Projection")
+    
+        fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
+        st.plotly_chart(fig)
 
     # ---------- Inflation ----------
     st.subheader("Inflation Impact")
