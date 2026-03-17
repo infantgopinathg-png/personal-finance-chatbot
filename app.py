@@ -250,7 +250,7 @@ if st.button("Analyze Financial Plan"):
     
     # Center silver ball
     gauge.add_trace(go.Scatter(
-        x=[0], y=[0.15],   # ← match the shift
+        x=[0], y=[0.50],   # ← match the shift
         mode="markers",
         marker=dict(
             color="silver",
