@@ -355,6 +355,12 @@ if analyze:
     st.subheader("Retirement Wealth Projection")
     
     fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
+
+    fig.update_layout(
+        yaxis_tickprefix="₹",
+        yaxis_tickformat=","
+    )
+
     st.plotly_chart(fig, use_container_width=True)
 
     # ---------- Inflation ----------
