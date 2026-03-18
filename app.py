@@ -12,11 +12,6 @@ import plotly.graph_objects as go
 st.markdown("""
 <style>
 
-.stApp{
-background: linear-gradient(135deg,#0f172a,#1e293b);
-color:white;
-}
-
 .header-card{
 background: rgba(255,255,255,0.05);
 padding:40px;
@@ -35,9 +30,38 @@ background: linear-gradient(90deg,#22c55e,#38bdf8);
 -webkit-text-fill-color:transparent;
 }
 
+.subtitle{
+font-size:18px;
+color:#cbd5f5;
+margin-top:10px;
+}
+
+.dev{
+font-size:14px;
+color:#94a3b8;
+margin-top:8px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<div class="header-card">
+
+<div class="title">
+💰 Personal Financial Discipline Advisor
+</div>
+
+<div class="subtitle">
+AI-Based Personal Wealth Planning Tool
+</div>
+
+<div class="dev">
+Designed & Developed by – Ambika, Infant, Madhushree (AIM)
+</div>
+
+</div>
+""", unsafe_allow_html=True)
 
 # ---------- Currency conversion ----------
 def convert_indian_currency(value):
