@@ -9,7 +9,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # CSS
-# CSS
 st.markdown("""
 <style>
 
@@ -36,26 +35,9 @@ background: linear-gradient(90deg,#22c55e,#38bdf8);
 -webkit-text-fill-color:transparent;
 }
 
-/* 🔹 MAKE INPUT LABELS VISIBLE */
-label{
-color:#e2e8f0 !important;
-font-size:16px !important;
-font-weight:600 !important;
-}
-
-/* radio text */
-.stRadio label{
-color:#e2e8f0 !important;
-}
-
-/* input text */
-.stNumberInput input,
-.stTextInput input{
-color:white !important;
-}
-
 </style>
 """, unsafe_allow_html=True)
+
 
 # ---------- Currency conversion ----------
 def convert_indian_currency(value):
