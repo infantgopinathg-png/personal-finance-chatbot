@@ -404,9 +404,48 @@ if analyze:
         • Maintain emergency fund (6–12 months expenses)
         """)
 
-    # ---------- Inflation ----------
+    # ---------- Inflation Impact ----------
     st.subheader("Inflation Impact")
-    st.write(f"Future value of retirement goal: ₹{int(future_goal):,}")
+    
+    inflation = 0.06
+    future_goal = retirement_goal * ((1 + inflation) ** years_left)
+    
+    st.write(f"Current Retirement Goal: ₹{retirement_goal:,}")
+    st.write(f"Inflation Adjusted Goal at Retirement: ₹{int(future_goal):,}")
+    st.write(f"Inflation Rate: {inflation*100:.0f}%")
+    
+    inflation_values = []
+    value = retirement_goal
+    
+    for year in range(1, years_left + 1):
+        value = value * (1 + inflation)
+        inflation_values.append(value)
+    
+    inflation_df = pd.DataFrame({
+        "Year": list(range(1, years_left + 1)),
+        "Inflation Adjusted Goal": inflation_values
+    })
+    
+    fig_inf = px.line(
+        inflation_df,
+        x="Year",
+        y="Inflation Adjusted Goal",
+        markers=True
+    )
+    
+    fig_inf.update_layout(
+        yaxis_tickprefix="₹",
+        yaxis_tickformat=",",
+        xaxis_title="Year",
+        yaxis_title="Future Retirement Goal"
+    )
+    
+    st.plotly_chart(fig_inf, use_container_width=True)
+    
+    st.info(
+    "Inflation reduces purchasing power over time. "
+    "The retirement corpus required in the future will therefore be significantly higher than today's value."
+    )
 
     # ---------- Retirement income ----------
     st.subheader("Estimated Retirement Income")
