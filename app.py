@@ -305,7 +305,7 @@ if st.button("Analyze Financial Plan"):
     st.subheader("Portfolio Allocation")
 
     pie = px.pie(values=list(portfolio.values()), names=list(portfolio.keys()))
-    st.plotly_chart(pie)
+    st.plotly_chart(pie, use_container_width=True)
 
     # ---------- Readiness gauge ----------
     readiness_percent = min(int((corpus / retirement_goal) * 100), 100)
