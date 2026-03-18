@@ -424,7 +424,7 @@ if analyze:
     })
 
     st.dataframe(inflation_table, use_container_width=True, hide_index=True)
-
+    st.markdown("<br>", unsafe_allow_html=True)
     # Calculate inflation-adjusted goal
     inflation_values = []
     current_goal_values = []
