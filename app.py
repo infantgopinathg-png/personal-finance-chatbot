@@ -244,8 +244,8 @@ if st.session_state.page == "input":
     if st.session_state.page == "result":
         #Back Button
         if st.button("⬅ Back to Input"):
-        st.session_state.page = "input"
-        st.rerun()
+            st.session_state.page = "input"
+            st.rerun()
 
     # ---------- Dashboard ----------
     st.subheader("📊 Financial Dashboard")
