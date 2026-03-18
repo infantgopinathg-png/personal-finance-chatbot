@@ -11,86 +11,55 @@ import plotly.graph_objects as go
 st.markdown("""
 <style>
 
-/* Hide default Streamlit elements */
-#MainMenu {visibility:hidden;}
-footer {visibility:hidden;}
-header {visibility:hidden;}
-
-/* App background */
-.stApp {
-background: linear-gradient(135deg,#0f172a,#1e293b);
-color:white;
-}
-
-/* All text */
-body, p, label, div, span {
-color:white !important;
-}
-
-/* Section headings */
-h1,h2,h3,h4,h5,h6{
-color:white !important;
-}
-
-/* Input labels */
-label{
-font-weight:600;
-color:#e2e8f0 !important;
-}
-
-/* Input boxes */
-.stNumberInput input,
-.stTextInput input{
-background-color:#1e293b !important;
-color:white !important;
-border-radius:8px;
-border:1px solid #334155;
-}
-
-/* Radio buttons */
-.stRadio label{
-color:white !important;
-}
-
-/* Dropdown */
-.stSelectbox div{
-color:white !important;
-}
-
-/* Button */
-.stButton button{
-background: linear-gradient(90deg,#22c55e,#16a34a);
-color:white;
-font-weight:bold;
-border-radius:10px;
-height:45px;
-width:100%;
-border:none;
-font-size:16px;
-}
-
-.stButton button:hover{
-background: linear-gradient(90deg,#16a34a,#15803d);
-}
-
-/* Metric cards */
-[data-testid="metric-container"]{
-background: rgba(255,255,255,0.06);
-border-radius:12px;
-padding:15px;
-box-shadow:0px 4px 12px rgba(0,0,0,0.4);
-}
-
-/* Section container */
-section.main > div{
+.header-card{
 background: rgba(255,255,255,0.05);
-padding:30px;
-border-radius:15px;
+padding:40px;
+border-radius:20px;
+text-align:center;
 backdrop-filter: blur(10px);
-box-shadow:0px 6px 20px rgba(0,0,0,0.3);
+box-shadow:0px 8px 30px rgba(0,0,0,0.4);
+margin-bottom:30px;
+}
+
+.title{
+font-size:42px;
+font-weight:800;
+background: linear-gradient(90deg,#22c55e,#38bdf8);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+font-size:18px;
+color:#cbd5f5;
+margin-top:10px;
+}
+
+.dev{
+font-size:14px;
+color:#94a3b8;
+margin-top:8px;
 }
 
 </style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="header-card">
+
+<div class="title">
+💰 Personal Financial Discipline Advisor
+</div>
+
+<div class="subtitle">
+AI-Based Personal Wealth Planning Tool
+</div>
+
+<div class="dev">
+Designed & Developed by – Ambika, Infant, Madhushree (AIM)
+</div>
+
+</div>
 """, unsafe_allow_html=True)
 
 # ---------- Currency conversion ----------
