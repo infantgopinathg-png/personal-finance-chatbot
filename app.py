@@ -372,6 +372,38 @@ if analyze:
     
     st.plotly_chart(fig, use_container_width=True)
 
+    # ---------- Retirement Suggestions ----------
+    st.subheader("Retirement Planning Suggestions")
+    
+    gap = retirement_goal - projection[-1]
+    
+    if gap > 0:
+        
+        st.warning(f"You may fall short of your retirement goal by ₹{int(gap):,}.")
+        
+        st.write("Suggested actions to improve retirement readiness:")
+        
+        st.write("""
+        • Increase monthly savings gradually  
+        • Extend retirement age to allow more investment time  
+        • Consider higher return investments like equity mutual funds  
+        • Reduce unnecessary monthly expenses  
+        • Start SIP investments for long-term wealth creation
+        """)
+        
+    else:
+        
+        st.success("🎉 You are on track to meet or exceed your retirement goal!")
+        
+        st.write("Suggestions to maintain financial health:")
+        
+        st.write("""
+        • Continue disciplined investing  
+        • Diversify portfolio across equity, debt, and gold  
+        • Review retirement plan every year  
+        • Maintain emergency fund (6–12 months expenses)
+        """)
+
     # ---------- Inflation ----------
     st.subheader("Inflation Impact")
     st.write(f"Future value of retirement goal: ₹{int(future_goal):,}")
