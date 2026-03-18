@@ -11,6 +11,9 @@ import plotly.graph_objects as go
 if "page" not in st.session_state:
     st.session_state.page = "input"
 
+if "analyzed" not in st.session_state:
+    st.session_state.analyzed = False
+
 # CSS
 st.markdown("""
 <style>
@@ -162,7 +165,8 @@ if st.session_state.page == "input":
         if ret_goal_input.strip() == "" or income == 0 or expenses == 0:
             st.warning("⚠ Please fill all required details before analyzing.")
             st.stop()
-
+    
+        st.session_state.analyzed = True
         st.session_state.page = "result"
         st.rerun()
 
@@ -241,10 +245,11 @@ if st.session_state.page == "input":
         "Projected Wealth": [round(x, 2) for x in projection]
     })
 
-    if st.session_state.page == "result":
+    if st.session_state.page == "result" and st.session_state.analyzed:
         #Back Button
         if st.button("⬅ Back to Input"):
             st.session_state.page = "input"
+            st.session_state.analyzed = False
             st.rerun()
 
     # ---------- Dashboard ----------
