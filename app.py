@@ -42,10 +42,6 @@ color:#94a3b8;
 margin-top:8px;
 }
 
-
-</style>
-""", unsafe_allow_html=True)
-
 .footer{
 text-align:center;
 margin-top:50px;
