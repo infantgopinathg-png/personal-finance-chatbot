@@ -404,48 +404,71 @@ if analyze:
         • Maintain emergency fund (6–12 months expenses)
         """)
 
-    # ---------- Inflation Impact ----------
+    # ---------- Inflation Impact Comparison ----------
     st.subheader("Inflation Impact")
     
     inflation = 0.06
-    future_goal = retirement_goal * ((1 + inflation) ** years_left)
     
-    st.write(f"Current Retirement Goal: ₹{retirement_goal:,}")
-    st.write(f"Inflation Adjusted Goal at Retirement: ₹{int(future_goal):,}")
-    st.write(f"Inflation Rate: {inflation*100:.0f}%")
-    
+    # Calculate inflation-adjusted goal
     inflation_values = []
+    current_goal_values = []
+    
     value = retirement_goal
     
     for year in range(1, years_left + 1):
+        
+        # inflation growth
         value = value * (1 + inflation)
         inflation_values.append(value)
+        
+        # constant current goal
+        current_goal_values.append(retirement_goal)
     
     inflation_df = pd.DataFrame({
         "Year": list(range(1, years_left + 1)),
-        "Inflation Adjusted Goal": inflation_values
+        "Inflation Adjusted Goal": inflation_values,
+        "Current Retirement Goal": current_goal_values
     })
     
-    fig_inf = px.line(
-        inflation_df,
-        x="Year",
-        y="Inflation Adjusted Goal",
-        markers=True
+    # Create graph
+    fig_inf = go.Figure()
+    
+    # Blue line - current goal
+    fig_inf.add_trace(
+        go.Scatter(
+            x=inflation_df["Year"],
+            y=inflation_df["Current Retirement Goal"],
+            mode="lines",
+            name="Current Retirement Goal",
+            line=dict(color="blue")
+        )
+    )
+    
+    # Red line - inflation goal
+    fig_inf.add_trace(
+        go.Scatter(
+            x=inflation_df["Year"],
+            y=inflation_df["Inflation Adjusted Goal"],
+            mode="lines+markers",
+            name="Inflation Adjusted Goal",
+            line=dict(color="red")
+        )
     )
     
     fig_inf.update_layout(
         yaxis_tickprefix="₹",
         yaxis_tickformat=",",
-        xaxis_title="Year",
-        yaxis_title="Future Retirement Goal"
+        xaxis_title="Years",
+        yaxis_title="Retirement Corpus",
+        legend_title="Comparison"
     )
     
     st.plotly_chart(fig_inf, use_container_width=True)
-    
-    st.info(
-    "Inflation reduces purchasing power over time. "
-    "The retirement corpus required in the future will therefore be significantly higher than today's value."
-    )
+        
+        st.info(
+        "Inflation reduces purchasing power over time. "
+        "The retirement corpus required in the future will therefore be significantly higher than today's value."
+        )
 
     # ---------- Retirement income ----------
     st.subheader("Estimated Retirement Income")
