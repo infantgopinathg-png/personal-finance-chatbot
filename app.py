@@ -408,6 +408,11 @@ if analyze:
     st.subheader("Inflation Impact")
     
     inflation = 0.06
+    future_goal = retirement_goal * ((1 + inflation) ** years_left)
+
+    st.write(f"Current Retirement Goal: ₹{retirement_goal:,}")
+    st.write(f"Inflation Adjusted Goal at Retirement: ₹{int(future_goal):,}")
+    st.write(f"Inflation Rate: {inflation*100:.0f}%")
     
     # Calculate inflation-adjusted goal
     inflation_values = []
