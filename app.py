@@ -235,7 +235,7 @@ if analyze:
 
     df = pd.DataFrame({
         "Year": list(range(1, years_left + 1)),
-        "Projected Wealth": projection
+        "Projected Wealth": [round(x, 2) for x in projection]
     })
 
     # ---------- Dashboard ----------
