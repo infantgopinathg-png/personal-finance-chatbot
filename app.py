@@ -60,6 +60,14 @@ AI-Based Personal Wealth Planning Tool
 Designed & Developed by – Ambika, Infant, Madhushree (AIM)
 </div>
 
+.footer{
+text-align:center;
+margin-top:50px;
+padding-top:15px;
+border-top:1px solid rgba(255,255,255,0.1);
+color:#94a3b8;
+font-size:13px;
+}
 </div>
 """, unsafe_allow_html=True)
 
@@ -356,19 +364,12 @@ if st.button("Analyze Financial Plan"):
 
 
 # ---------- Footer ----------
-st.markdown("---")
+st.markdown("""
+<div class="footer">
 
-st.markdown(
-"<h5 style='text-align:center;'>A Project of Personal Finance & Wealth Management</h5>",
-unsafe_allow_html=True
-)
+A Project of Personal Finance & Wealth Management  
+Designed & Developed by – Ambika, Infant, Madhushree (AIM)  
+Faculty Guide – Dr. K. Nigama
 
-st.markdown(
-"<h6 style='text-align:center;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h6>",
-unsafe_allow_html=True
-)
-
-st.markdown(
-"<h6 style='text-align:center;'>Faculty: Dr. K. Nigama</h6>",
-unsafe_allow_html=True
-)
+</div>
+""", unsafe_allow_html=True)
