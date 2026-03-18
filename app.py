@@ -11,7 +11,14 @@ import plotly.graph_objects as go
 # CSS
 st.markdown("""
 <style>
+/* Hide Streamlit top toolbar */
+header {visibility: hidden;}
 
+/* Hide hamburger menu */
+#MainMenu {visibility: hidden;}
+
+/* Hide footer (default Streamlit footer) */
+footer {visibility: hidden;}
 .header-card{
 background: rgba(255,255,255,0.05);
 padding:40px;
