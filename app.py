@@ -354,7 +354,7 @@ if st.button("Analyze Financial Plan"):
     st.subheader("Retirement Wealth Projection")
     
     fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
 
     # ---------- Inflation ----------
     st.subheader("Inflation Impact")
