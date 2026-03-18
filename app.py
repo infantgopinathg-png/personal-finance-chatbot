@@ -97,21 +97,7 @@ def government_schemes(age):
             ("Post Office Monthly Income Scheme", "Interest ~7.4%")
         ]
 
-# ---------- Title ----------
-st.markdown("""
-<h1 style='text-align:center;
-font-size:42px;
-font-weight:800;
-background: linear-gradient(90deg,#22c55e,#38bdf8);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;'>
-💰 Personal Financial Discipline Advisor
-</h1>
-""", unsafe_allow_html=True)
-st.markdown(
-"<h5 style='text-align:center;'>Designed & Developed by – Ambika, Infant, Madhushree (AIM)</h5>",
-unsafe_allow_html=True
-)
+
 
 # ---------- User Inputs ----------
 st.subheader("User Financial Information")
