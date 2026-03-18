@@ -41,6 +41,62 @@ font-size:14px;
 color:#94a3b8;
 margin-top:8px;
 }
+
+st.markdown("""
+<style>
+
+.header-card{
+background: rgba(255,255,255,0.05);
+padding:40px;
+border-radius:20px;
+text-align:center;
+backdrop-filter: blur(10px);
+box-shadow:0px 8px 30px rgba(0,0,0,0.4);
+margin-bottom:30px;
+}
+
+.title{
+font-size:42px;
+font-weight:800;
+background: linear-gradient(90deg,#833AB4,#FD1D1D);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+font-size:18px;
+color:#cbd5f5;
+margin-top:10px;
+}
+
+.dev{
+font-size:14px;
+color:#94a3b8;
+margin-top:8px;
+}
+
+/* 🔴 RED ANALYZE BUTTON */
+.stButton > button {
+background-color:#e11d48;
+color:white;
+font-size:18px;
+font-weight:600;
+border-radius:12px;
+padding:10px 25px;
+border:none;
+box-shadow:0px 4px 12px rgba(225,29,72,0.4);
+transition:all 0.3s ease;
+}
+
+.stButton > button:hover {
+background-color:#be123c;
+transform:translateY(-2px);
+box-shadow:0px 6px 16px rgba(225,29,72,0.6);
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 .footer{
 text-align:center;
 margin-top:50px;
