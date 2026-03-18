@@ -100,21 +100,19 @@ def government_schemes(age):
 
 
 # ---------- User Inputs ----------
-st.subheader("📋 User Financial Information")
+st.subheader("User Financial Information")
 
-col1, col2 = st.columns(2)
+age = st.number_input("Current Age", min_value=18, max_value=100)
+gender = st.radio("Gender", ["Male","Female"])
+income = st.number_input("Monthly Income (₹)", min_value=0)
+expenses = st.number_input("Monthly Expenses (₹)", min_value=0)
+savings = st.number_input("Current Savings (₹)", min_value=0)
+retirement_age = st.number_input("Desired Retirement Age", min_value=40, max_value=80)
 
-with col1:
-    age = st.number_input("Current Age", min_value=18, max_value=100)
-    income = st.number_input("Monthly Income (₹)", min_value=0)
-    savings = st.number_input("Current Savings (₹)", min_value=0)
-    risk = st.selectbox("Risk Tolerance", ["Low","Medium","High"])
+ret_goal_input = st.text_input("Retirement Goal Corpus (Example: 2 crore / 20000000)")
 
-with col2:
-    gender = st.radio("Gender", ["Male","Female"])
-    expenses = st.number_input("Monthly Expenses (₹)", min_value=0)
-    retirement_age = st.number_input("Desired Retirement Age", min_value=40, max_value=80)
-    ret_goal_input = st.text_input("Retirement Goal Corpus (Example: 2 crore)")
+risk = st.radio("Risk Tolerance", ["Low","Medium","High"])
+
 
 if st.button("Analyze Financial Plan"):
 
