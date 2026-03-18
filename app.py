@@ -25,7 +25,7 @@ margin-bottom:30px;
 .title{
 font-size:42px;
 font-weight:800;
-background: linear-gradient(90deg,#833AB4,#38bdf8);
+background: linear-gradient(90deg,#833AB4,#FD1D1D);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
