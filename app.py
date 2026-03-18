@@ -158,12 +158,12 @@ risk = st.radio("Risk Tolerance", ["Low","Medium","High"])
 analyze = st.button("Analyze Financial Plan")
 
 if analyze:
-    
+
     if ret_goal_input.strip() == "" or income == 0 or expenses == 0:
         st.warning("⚠ Please fill all required details before analyzing.")
-    
-    else:
-        retirement_goal = convert_indian_currency(ret_goal_input)
+        st.stop()   # ⛔ stops the rest of the code
+
+    retirement_goal = convert_indian_currency(ret_goal_input)
 
     retirement_goal = convert_indian_currency(ret_goal_input)
 
