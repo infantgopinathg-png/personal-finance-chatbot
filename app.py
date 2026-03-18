@@ -11,14 +11,84 @@ import plotly.graph_objects as go
 st.markdown("""
 <style>
 
-/* Hide Streamlit menu */
-#MainMenu {visibility: hidden;}
+/* Hide default Streamlit elements */
+#MainMenu {visibility:hidden;}
+footer {visibility:hidden;}
+header {visibility:hidden;}
 
-/* Hide footer */
-footer {visibility: hidden;}
+/* App background */
+.stApp {
+background: linear-gradient(135deg,#0f172a,#1e293b);
+color:white;
+}
 
-/* Hide header toolbar (edit, github, menu icons) */
-header {visibility: hidden;}
+/* Title */
+h1{
+font-weight:700;
+color:white;
+}
+
+/* Section Cards */
+.block-container{
+padding-top:2rem;
+}
+
+section.main > div{
+background: rgba(255,255,255,0.05);
+padding:30px;
+border-radius:15px;
+backdrop-filter: blur(10px);
+box-shadow:0px 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Input fields */
+.stNumberInput input,
+.stTextInput input{
+background-color:#1e293b;
+color:white;
+border-radius:8px;
+border:1px solid #334155;
+}
+
+/* Radio buttons */
+.stRadio label{
+color:white;
+}
+
+/* Buttons */
+.stButton button{
+background: linear-gradient(90deg,#22c55e,#16a34a);
+color:white;
+font-weight:bold;
+border-radius:10px;
+height:45px;
+width:100%;
+border:none;
+font-size:16px;
+}
+
+.stButton button:hover{
+background: linear-gradient(90deg,#16a34a,#15803d);
+}
+
+/* Metric Cards */
+[data-testid="metric-container"]{
+background: rgba(255,255,255,0.06);
+border-radius:12px;
+padding:15px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Section titles */
+h2{
+color:#38bdf8;
+margin-top:20px;
+}
+
+/* Divider */
+hr{
+border:1px solid #334155;
+}
 
 </style>
 """, unsafe_allow_html=True)
