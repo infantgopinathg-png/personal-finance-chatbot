@@ -42,6 +42,26 @@ color:#94a3b8;
 margin-top:8px;
 }
 
+/* Red Highlight Button */
+.stButton > button {
+background-color: #e11d48;
+color: white;
+font-size: 18px;
+font-weight: 600;
+border-radius: 12px;
+padding: 10px 25px;
+border: none;
+box-shadow: 0px 4px 12px rgba(225,29,72,0.4);
+transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.stButton > button:hover {
+background-color: #be123c;
+box-shadow: 0px 6px 16px rgba(225,29,72,0.6);
+transform: translateY(-2px);
+}
+
 .footer{
 text-align:center;
 margin-top:50px;
