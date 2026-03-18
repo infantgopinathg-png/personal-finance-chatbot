@@ -410,20 +410,21 @@ if analyze:
     inflation = 0.06
     future_goal = retirement_goal * ((1 + inflation) ** years_left)
     
-    st.markdown(
-    f"**Current Retirement Goal:** <span style='color:#2563eb;font-size:20px;'>₹{retirement_goal:,}</span>",
-    unsafe_allow_html=True
-    )
-    
-    st.markdown(
-        f"**Inflation Adjusted Goal at Retirement:** <span style='color:#dc2626;font-size:20px;'>₹{int(future_goal):,}</span>",
-        unsafe_allow_html=True
-    )
-    
-    st.markdown(
-        f"**Inflation Rate:** <span style='color:#f59e0b;font-size:18px;'>{inflation*100:.0f}%</span>",
-        unsafe_allow_html=True
-    )
+    inflation_table = pd.DataFrame({
+    "Metric": [
+        "Current Retirement Goal",
+        "Inflation Adjusted Goal at Retirement",
+        "Inflation Rate"
+    ],
+    "Value": [
+        f"₹{retirement_goal:,}",
+        f"₹{int(future_goal):,}",
+        f"{inflation*100:.0f}%"
+    ]
+    })
+
+    st.table(inflation_table)
+
     # Calculate inflation-adjusted goal
     inflation_values = []
     current_goal_values = []
