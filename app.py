@@ -423,7 +423,7 @@ if analyze:
     ]
     })
 
-    st.table(inflation_table)
+    st.dataframe(inflation_table, use_container_width=True, hide_index=True)
 
     # Calculate inflation-adjusted goal
     inflation_values = []
