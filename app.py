@@ -22,40 +22,42 @@ background: linear-gradient(135deg,#0f172a,#1e293b);
 color:white;
 }
 
-/* Title */
-h1{
-font-weight:700;
-color:white;
+/* All text */
+body, p, label, div, span {
+color:white !important;
 }
 
-/* Section Cards */
-.block-container{
-padding-top:2rem;
+/* Section headings */
+h1,h2,h3,h4,h5,h6{
+color:white !important;
 }
 
-section.main > div{
-background: rgba(255,255,255,0.05);
-padding:30px;
-border-radius:15px;
-backdrop-filter: blur(10px);
-box-shadow:0px 6px 20px rgba(0,0,0,0.3);
+/* Input labels */
+label{
+font-weight:600;
+color:#e2e8f0 !important;
 }
 
-/* Input fields */
+/* Input boxes */
 .stNumberInput input,
 .stTextInput input{
-background-color:#1e293b;
-color:white;
+background-color:#1e293b !important;
+color:white !important;
 border-radius:8px;
 border:1px solid #334155;
 }
 
 /* Radio buttons */
 .stRadio label{
-color:white;
+color:white !important;
 }
 
-/* Buttons */
+/* Dropdown */
+.stSelectbox div{
+color:white !important;
+}
+
+/* Button */
 .stButton button{
 background: linear-gradient(90deg,#22c55e,#16a34a);
 color:white;
@@ -71,7 +73,7 @@ font-size:16px;
 background: linear-gradient(90deg,#16a34a,#15803d);
 }
 
-/* Metric Cards */
+/* Metric cards */
 [data-testid="metric-container"]{
 background: rgba(255,255,255,0.06);
 border-radius:12px;
@@ -79,15 +81,13 @@ padding:15px;
 box-shadow:0px 4px 12px rgba(0,0,0,0.4);
 }
 
-/* Section titles */
-h2{
-color:#38bdf8;
-margin-top:20px;
-}
-
-/* Divider */
-hr{
-border:1px solid #334155;
+/* Section container */
+section.main > div{
+background: rgba(255,255,255,0.05);
+padding:30px;
+border-radius:15px;
+backdrop-filter: blur(10px);
+box-shadow:0px 6px 20px rgba(0,0,0,0.3);
 }
 
 </style>
