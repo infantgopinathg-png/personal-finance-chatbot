@@ -41,7 +41,15 @@ font-size:14px;
 color:#94a3b8;
 margin-top:8px;
 }
-
+.footer{
+text-align:center;
+margin-top:50px;
+padding-top:15px;
+border-top:1px solid rgba(255,255,255,0.1);
+color:#94a3b8;
+font-size:13px;
+}
+</div>
 </style>
 """, unsafe_allow_html=True)
 
@@ -60,15 +68,7 @@ AI-Based Personal Wealth Planning Tool
 Designed & Developed by – Ambika, Infant, Madhushree (AIM)
 </div>
 
-.footer{
-text-align:center;
-margin-top:50px;
-padding-top:15px;
-border-top:1px solid rgba(255,255,255,0.1);
-color:#94a3b8;
-font-size:13px;
-}
-</div>
+
 """, unsafe_allow_html=True)
 
 # ---------- Currency conversion ----------
