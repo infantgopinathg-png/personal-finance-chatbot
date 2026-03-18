@@ -49,7 +49,7 @@ st.markdown("""
 <div class="header-card">
 
 <div class="title">
-💰 Personal Financial Discipline Advisor
+💰 <Personal Financial Discipline Advisor>
 </div>
 
 <div class="subtitle">
