@@ -8,6 +8,9 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
+if "page" not in st.session_state:
+    st.session_state.page = "input"
+
 # CSS
 st.markdown("""
 <style>
@@ -141,27 +144,27 @@ def government_schemes(age):
 
 
 # ---------- User Inputs ----------
-st.subheader("User Financial Information")
+if st.session_state.page == "input":
+    st.subheader("User Financial Information")
+    
+    age = st.number_input("Current Age", min_value=18, max_value=100)
+    gender = st.radio("Gender", ["Male","Female"])
+    income = st.number_input("Monthly Income (₹)", min_value=0)
+    expenses = st.number_input("Monthly Expenses (₹)", min_value=0)
+    savings = st.number_input("Current Savings (₹)", min_value=0)
+    retirement_age = st.number_input("Desired Retirement Age", min_value=40, max_value=80)
+    
+    ret_goal_input = st.text_input("Retirement Goal Corpus (Example: 2 crore / 20000000)")
+    risk = st.radio("Risk Tolerance", ["Low","Medium","High"])
 
-age = st.number_input("Current Age", min_value=18, max_value=100)
-gender = st.radio("Gender", ["Male","Female"])
-income = st.number_input("Monthly Income (₹)", min_value=0)
-expenses = st.number_input("Monthly Expenses (₹)", min_value=0)
-savings = st.number_input("Current Savings (₹)", min_value=0)
-retirement_age = st.number_input("Desired Retirement Age", min_value=40, max_value=80)
+    if st.button("Analyze Financial Plan"):
 
-ret_goal_input = st.text_input("Retirement Goal Corpus (Example: 2 crore / 20000000)")
+        if ret_goal_input.strip() == "" or income == 0 or expenses == 0:
+            st.warning("⚠ Please fill all required details before analyzing.")
+            st.stop()
 
-risk = st.radio("Risk Tolerance", ["Low","Medium","High"])
-
-
-analyze = st.button("Analyze Financial Plan")
-
-if analyze:
-
-    if ret_goal_input.strip() == "" or income == 0 or expenses == 0:
-        st.warning("⚠ Please fill all required details before analyzing.")
-        st.stop()   # ⛔ stops the rest of the code
+        st.session_state.page = "result"
+        st.rerun()
 
     retirement_goal = convert_indian_currency(ret_goal_input)
 
@@ -237,6 +240,12 @@ if analyze:
         "Year": list(range(1, years_left + 1)),
         "Projected Wealth": [round(x, 2) for x in projection]
     })
+
+    if st.session_state.page == "result":
+    #Back Button
+        if st.button("⬅ Back to Input"):
+        st.session_state.page = "input"
+        st.rerun()
 
     # ---------- Dashboard ----------
     st.subheader("📊 Financial Dashboard")
