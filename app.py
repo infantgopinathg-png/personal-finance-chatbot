@@ -465,10 +465,10 @@ if analyze:
     
     st.plotly_chart(fig_inf, use_container_width=True)
         
-        st.info(
-        "Inflation reduces purchasing power over time. "
-        "The retirement corpus required in the future will therefore be significantly higher than today's value."
-        )
+    st.info(
+    "Inflation reduces purchasing power over time. "
+    "The retirement corpus required in the future will therefore be significantly higher than today's value."
+    )
 
     # ---------- Retirement income ----------
     st.subheader("Estimated Retirement Income")
