@@ -9,6 +9,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # CSS
+# CSS
 st.markdown("""
 <style>
 
@@ -35,27 +36,25 @@ background: linear-gradient(90deg,#22c55e,#38bdf8);
 -webkit-text-fill-color:transparent;
 }
 
+/* 🔹 MAKE INPUT LABELS VISIBLE */
+label{
+color:#e2e8f0 !important;
+font-size:16px !important;
+font-weight:600 !important;
+}
+
+/* radio text */
+.stRadio label{
+color:#e2e8f0 !important;
+}
+
+/* input text */
+.stNumberInput input,
+.stTextInput input{
+color:white !important;
+}
+
 </style>
-""", unsafe_allow_html=True)
-
-
-# HEADER
-st.markdown("""
-<div class="header-card">
-
-<div class="title">
-💰 Personal Financial Discipline Advisor
-</div>
-
-<div style="font-size:18px;color:#cbd5f5;">
-AI-Based Personal Wealth Planning Tool
-</div>
-
-<div style="font-size:14px;color:#94a3b8;margin-top:10px;">
-Designed & Developed by – Ambika, Infant, Madhushree (AIM)
-</div>
-
-</div>
 """, unsafe_allow_html=True)
 
 # ---------- Currency conversion ----------
