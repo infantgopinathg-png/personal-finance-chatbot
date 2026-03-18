@@ -409,11 +409,21 @@ if analyze:
     
     inflation = 0.06
     future_goal = retirement_goal * ((1 + inflation) ** years_left)
-
-    st.write(f"Current Retirement Goal: ₹{retirement_goal:,}")
-    st.write(f"Inflation Adjusted Goal at Retirement: ₹{int(future_goal):,}")
-    st.write(f"Inflation Rate: {inflation*100:.0f}%")
     
+    st.markdown(
+    f"**Current Retirement Goal:** <span style='color:#2563eb;font-size:20px;'>₹{retirement_goal:,}</span>",
+    unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        f"**Inflation Adjusted Goal at Retirement:** <span style='color:#dc2626;font-size:20px;'>₹{int(future_goal):,}</span>",
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        f"**Inflation Rate:** <span style='color:#f59e0b;font-size:18px;'>{inflation*100:.0f}%</span>",
+        unsafe_allow_html=True
+    )
     # Calculate inflation-adjusted goal
     inflation_values = []
     current_goal_values = []
