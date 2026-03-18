@@ -356,11 +356,20 @@ if analyze:
     
     fig = px.line(df, x="Year", y="Projected Wealth", markers=True)
 
+    # Add retirement goal line
+    fig.add_hline(
+        y=retirement_goal,
+        line_dash="dash",
+        line_color="red",
+        annotation_text="Retirement Goal",
+        annotation_position="top left"
+    )
+    
     fig.update_layout(
         yaxis_tickprefix="₹",
         yaxis_tickformat=","
     )
-
+    
     st.plotly_chart(fig, use_container_width=True)
 
     # ---------- Inflation ----------
