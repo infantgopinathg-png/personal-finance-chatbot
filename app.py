@@ -93,7 +93,7 @@ AI-Based Personal Wealth Planning Tool
 </div>
 
 <div class="dev">
-Designed & Developed by – Ambika, Infant, Madhushree (AIM)
+<b>Designed & Developed by – Ambika, Infant, Madhushree (AIM)<b>  
 </div>
 
 
