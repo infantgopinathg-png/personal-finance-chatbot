@@ -577,6 +577,7 @@ st.markdown("""
 A Project on Personal Finance & Wealth Management  
 Designed & Developed by – Ambika, Infant, Madhushree (AIM)  
 Faculty Guide – Dr. K. Nigama
+SASTRA Deemed University
 
 </div>
 """, unsafe_allow_html=True)
