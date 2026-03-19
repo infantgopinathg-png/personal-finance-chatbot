@@ -577,9 +577,9 @@ st.markdown("""
 <b>A Project on Personal Finance & Wealth Management  
 Designed & Developed by – Ambika, Infant, Madhushree (AIM) <b> <br>   
 
-<b>Faculty Guide <b> – <b>Dr. K. Nigama<b> <br>
+<b>Faculty Guide <b> – <b>Dr. K. Nigama<b> <br>  
 School of Management  
-SASTRA Deemed University <br>
+SASTRA Deemed University  
 
 </div>
 """, unsafe_allow_html=True)
