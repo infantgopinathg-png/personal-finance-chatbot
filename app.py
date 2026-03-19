@@ -181,14 +181,25 @@ if analyze:
     # ---------- Savings ratio ----------
     savings_ratio = (monthly_savings / income) * 100 if income else 0
 
-    # ---------- Financial health score ----------
+    # ---------- Smart Financial Health Score ----------
     score = 0
-    if savings_ratio >= 20:
+    
+    if age < 30:
+        target_savings = 15
+    elif age < 45:
+        target_savings = 20
+    else:
+        target_savings = 25
+    
+    if savings_ratio >= target_savings:
         score += 30
+    
     if savings > expenses * 6:
         score += 30
+    
     if monthly_savings > 0:
         score += 20
+    
     if income > expenses:
         score += 20
 
@@ -216,18 +227,37 @@ if analyze:
     else:
         years_to_goal = 0
 
-    # ---------- Portfolio allocation ----------
+    # ---------- Smart Portfolio Allocation (Age + Risk) ----------
+    base_equity = max(20, min(80, 100 - age))
+    
     if risk == "Low":
-        portfolio = {"Government Schemes":50,"Debt Funds":30,"Gold":20}
+        equity = base_equity - 10
     elif risk == "Medium":
-        portfolio = {"Equity Funds":50,"Debt Funds":30,"Gold":20}
+        equity = base_equity
     else:
-        portfolio = {"Equity Funds":70,"Index Funds":20,"Gold":10}
+        equity = base_equity + 10
+    
+    equity = max(10, min(90, equity))
+    debt = 100 - equity - 10
+    gold = 10
+    
+    portfolio = {
+        "Equity": equity,
+        "Debt": debt,
+        "Gold": gold
+    }
 
-    # ---------- Wealth projection ----------
-    annual_return = 0.10
-    balance = savings
-    projection = []
+    # ---------- Age-based return ----------
+    if age < 35:
+        annual_return = 0.11
+    elif age < 50:
+        annual_return = 0.09
+    elif age < 60:
+        annual_return = 0.07
+    else:
+        annual_return = 0.06
+        balance = savings
+        projection = []
 
     for year in range(1, years_left + 1):
         balance = (balance + monthly_savings * 12) * (1 + annual_return)
@@ -240,6 +270,17 @@ if analyze:
 
     # ---------- Dashboard ----------
     st.subheader("📊 Financial Dashboard")
+    # ---------- Age Insight ----------
+    st.subheader("Age-Based Financial Insight")
+    
+    if age < 30:
+        st.info("You are in wealth accumulation phase. Focus on high growth investments like equity.")
+    elif age < 45:
+        st.info("You are in wealth building phase. Balance growth and stability.")
+    elif age < 60:
+        st.info("You are approaching retirement. Reduce risk and secure gains.")
+    else:
+        st.info("You are in retirement phase. Focus on income generation and capital safety.")
 
     col1, col2, col3, col4 = st.columns(4)
 
@@ -372,36 +413,41 @@ if analyze:
     
     st.plotly_chart(fig, use_container_width=True)
 
-    # ---------- Retirement Suggestions ----------
+    # ---------- Smart Retirement Suggestions ----------
     st.subheader("Retirement Planning Suggestions")
     
     gap = retirement_goal - projection[-1]
     
     if gap > 0:
-        
         st.warning(f"You may fall short of your retirement goal by ₹{int(gap):,}.")
-        
-        st.write("Suggested actions to improve retirement readiness:")
-        
-        st.write("""
-        • Increase monthly savings gradually  
-        • Extend retirement age to allow more investment time  
-        • Consider higher return investments like equity mutual funds  
-        • Reduce unnecessary monthly expenses  
-        • Start SIP investments for long-term wealth creation
-        """)
-        
+    
+        st.write("Smart recommendations based on your profile:")
+    
+        if age < 35:
+            st.write("""
+            • Increase equity exposure for long-term growth  
+            • Start SIP early to benefit from compounding  
+            • Take calculated risks  
+            """)
+        elif age < 50:
+            st.write("""
+            • Balance equity and debt investments  
+            • Increase SIP contributions gradually  
+            • Avoid unnecessary expenses  
+            """)
+        else:
+            st.write("""
+            • Shift towards safer investments  
+            • Protect capital (avoid high-risk assets)  
+            • Focus on retirement income stability  
+            """)
     else:
-        
-        st.success("🎉 You are on track to meet or exceed your retirement goal!")
-        
-        st.write("Suggestions to maintain financial health:")
-        
+        st.success("🎉 You are on track to meet your retirement goal!")
+    
         st.write("""
         • Continue disciplined investing  
-        • Diversify portfolio across equity, debt, and gold  
-        • Review retirement plan every year  
-        • Maintain emergency fund (6–12 months expenses)
+        • Rebalance portfolio annually  
+        • Maintain emergency fund  
         """)
 
     # ---------- Inflation Impact Comparison ----------
