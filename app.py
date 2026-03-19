@@ -256,8 +256,8 @@ if analyze:
         annual_return = 0.07
     else:
         annual_return = 0.06
-        balance = savings
-        projection = []
+    balance = savings
+    projection = []
 
     for year in range(1, years_left + 1):
         balance = (balance + monthly_savings * 12) * (1 + annual_return)
