@@ -141,7 +141,7 @@ def government_schemes(age):
 
 
 # ---------- User Inputs ----------
-st.subheader("User Financial Information")
+st.markdown("<h2>User Financial Information</h2>", unsafe_allow_html=True)
 
 age = st.number_input("Current Age", min_value=18, max_value=100)
 gender = st.radio("Gender", ["Male","Female"])
