@@ -574,12 +574,12 @@ if analyze:
 st.markdown("""
 <div class="footer">
 
-A Project on Personal Finance & Wealth Management  
-Designed & Developed by – Ambika, Infant, Madhushree (AIM)  
+<b>A Project on Personal Finance & Wealth Management  
+Designed & Developed by – Ambika, Infant, Madhushree (AIM) <b> <br>  
 
-Faculty Guide – <b>Dr. K. Nigama<b>  
+Faculty Guide – <b>Dr. K. Nigama<b> 
 School of Management  
-SASTRA Deemed University
+SASTRA Deemed University <br>
 
 </div>
 """, unsafe_allow_html=True)
