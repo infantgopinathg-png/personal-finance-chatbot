@@ -574,7 +574,7 @@ if analyze:
 st.markdown("""
 <div class="footer">
 
-A Project of Personal Finance & Wealth Management  
+A Project on Personal Finance & Wealth Management  
 Designed & Developed by – Ambika, Infant, Madhushree (AIM)  
 Faculty Guide – Dr. K. Nigama
 
