@@ -579,7 +579,7 @@ Designed & Developed by – Ambika, Infant, Madhushree (AIM)
 
 Faculty Guide – Dr. K. Nigama  
 School of Management  
-SASTRA  
+SASTRA Deemed University
 
 </div>
 """, unsafe_allow_html=True)
