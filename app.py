@@ -574,7 +574,7 @@ if analyze:
 st.markdown("""
 <div class="footer">
 
-<b>A Project on Personal Finance & Wealth Management  
+<b>A Project on Personal Finance & Wealth Management <br>  
 Designed & Developed by – Ambika, Infant, Madhushree (AIM) <b> <br>   
 
 <b>Faculty Guide <b> – <b>Dr. K. Nigama<b>    
