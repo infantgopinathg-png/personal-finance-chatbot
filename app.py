@@ -571,7 +571,7 @@ if analyze:
 
 
 # ---------- Footer ----------
-st.markdown("""
+st.markdown(""""
 <div class="footer">
 
 A Project on Personal Finance & Wealth Management  
@@ -580,4 +580,4 @@ Faculty Guide – Dr. K. Nigama
 SASTRA Deemed University
 
 </div>
-""", unsafe_allow_html=True)
+"""", unsafe_allow_html=True)
